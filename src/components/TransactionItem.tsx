@@ -1,8 +1,10 @@
 import type { Transaction } from "../types/transaction";
 
-type TransactionItemProps = {transaction: Transaction;};
+type TransactionItemProps = {transaction: Transaction;
+                             onDeleteTransaction: (id:string) => void;
+                            };
 
-function TransactionItem({transaction}: TransactionItemProps) {
+function TransactionItem({transaction, onDeleteTransaction}: TransactionItemProps) {
     const amountPrefix: string = transaction.type === "income" ? "+" : "-";
     const formattedAmount: string = `${amountPrefix}${transaction.amount}`;
     
@@ -15,6 +17,9 @@ function TransactionItem({transaction}: TransactionItemProps) {
             <div>
                 <span>{formattedAmount}</span>
                 <span>{transaction.date}</span>
+            </div>
+            <div>
+                <button onClick={() => onDeleteTransaction(transaction.id)}>Delete</button>
             </div>
         </li>
     )

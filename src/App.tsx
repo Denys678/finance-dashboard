@@ -5,7 +5,7 @@ import TransactionList from "./components/TransactionList";
 import SummaryCards from "./components/SummaryCards";
 
 function App() {
-  const [transactions] = useState<Transaction[]>([
+  const [transactions, setTransactions] = useState<Transaction[]>([
     {
       id: "1",
       title: "Salary",
@@ -32,6 +32,10 @@ function App() {
     },
   ]);
 
+  const handleDeleteTransaction = (id: string): void => {
+    setTransactions(prev => prev.filter(transaction => transaction.id !== id));
+  }
+
   const totalIncome = transactions.filter(item => item.type === "income").reduce((acc, item) => acc + item.amount, 0);
   const totalExpenses = transactions.filter(item => item.type === "expense").reduce((acc, item) => acc + item.amount, 0);
   const balance = totalIncome - totalExpenses;
@@ -41,7 +45,7 @@ function App() {
       <h1>Finance Dashboard</h1>
       <SummaryCards totalIncome={totalIncome} totalExpenses={totalExpenses} balance={balance} />
 
-      <TransactionList transactions={transactions} />
+      <TransactionList transactions={transactions} onDeleteTransaction={handleDeleteTransaction}/>
     </main>
   )
 }
