@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { Transaction } from "./types/transaction";
 
 import TransactionList from "./components/TransactionList";
+import SummaryCards from "./components/SummaryCards";
 
 function App() {
   const [transactions] = useState<Transaction[]>([
@@ -38,9 +39,7 @@ function App() {
   return (
     <main>
       <h1>Finance Dashboard</h1>
-      <p>Total income: {totalIncome}</p>
-      <p>Total expenses: {totalExpenses}</p>
-      <p>Balance: {balance}</p>
+      <SummaryCards totalIncome={totalIncome} totalExpenses={totalExpenses} balance={balance} />
 
       <TransactionList transactions={transactions} />
     </main>
