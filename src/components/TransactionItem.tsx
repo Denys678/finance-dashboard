@@ -1,8 +1,9 @@
 import type { Transaction } from "../types/transaction";
 
-type TransactionItemProps = {transaction: Transaction;
-                             onDeleteTransaction: (id:string) => void;
-                            };
+type TransactionItemProps = {
+    transaction: Transaction;                         
+    onDeleteTransaction: (id:string) => void;
+};
 
 function TransactionItem({transaction, onDeleteTransaction}: TransactionItemProps) {
     const amountPrefix: string = transaction.type === "income" ? "+" : "-";

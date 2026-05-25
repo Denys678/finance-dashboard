@@ -1,9 +1,10 @@
 import type { Transaction } from "../types/transaction";
 import TransactionItem from "./TransactionItem";
 
-type TransactionListProps = {transactions: Transaction[];
-                             onDeleteTransaction:(id: string) => void;
-                            };
+type TransactionListProps = {
+    transactions: Transaction[];
+    onDeleteTransaction:(id: string) => void;
+};
 
 function TransactionList({ transactions, onDeleteTransaction }: TransactionListProps) {
     return (

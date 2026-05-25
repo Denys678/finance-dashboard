@@ -3,6 +3,7 @@ import type { Transaction } from "./types/transaction";
 
 import TransactionList from "./components/TransactionList";
 import SummaryCards from "./components/SummaryCards";
+import TransactionForm from "./components/TransactionForm";
 
 function App() {
   const [transactions, setTransactions] = useState<Transaction[]>([
@@ -36,6 +37,10 @@ function App() {
     setTransactions(prev => prev.filter(transaction => transaction.id !== id));
   }
 
+  const handleAddTransaction = (transaction: Transaction): void => {
+    setTransactions(prev => [transaction, ...prev]);
+  }
+
   const totalIncome = transactions.filter(item => item.type === "income").reduce((acc, item) => acc + item.amount, 0);
   const totalExpenses = transactions.filter(item => item.type === "expense").reduce((acc, item) => acc + item.amount, 0);
   const balance = totalIncome - totalExpenses;
@@ -44,6 +49,8 @@ function App() {
     <main>
       <h1>Finance Dashboard</h1>
       <SummaryCards totalIncome={totalIncome} totalExpenses={totalExpenses} balance={balance} />
+
+      <TransactionForm onAddTransaction={handleAddTransaction}/>
 
       <TransactionList transactions={transactions} onDeleteTransaction={handleDeleteTransaction}/>
     </main>
