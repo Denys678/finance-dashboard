@@ -40,6 +40,8 @@ Planned features:
 ```txt
 src/
   components/
+    SummaryCards.tsx
+    TransactionForm.tsx
     TransactionItem.tsx
     TransactionList.tsx
   types/
