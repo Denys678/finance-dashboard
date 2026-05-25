@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Transaction } from "./types/transaction";
 
 import TransactionList from "./components/TransactionList";
 import SummaryCards from "./components/SummaryCards";
 import TransactionForm from "./components/TransactionForm";
 
-function App() {
-  const [transactions, setTransactions] = useState<Transaction[]>([
-    {
+const STORAGE_KEY = "finance-dashboard-transactions";
+
+const initialTransactions: Transaction[] = [
+  {
       id: "1",
       title: "Salary",
       amount: 1200,
@@ -31,7 +32,26 @@ function App() {
       category: "Transport",
       date: "2026-05-24"
     },
-  ]);
+];
+
+function App() {
+  const [transactions, setTransactions] = useState<Transaction[]>(() => {
+    const savedTransactions = localStorage.getItem(STORAGE_KEY);
+
+    if (!savedTransactions) {
+      return initialTransactions;
+    }
+
+    try {
+      return JSON.parse(savedTransactions) as Transaction[]
+    } catch {
+      return initialTransactions;
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
+  }, [transactions])
 
   const handleDeleteTransaction = (id: string): void => {
     setTransactions(prev => prev.filter(transaction => transaction.id !== id));
