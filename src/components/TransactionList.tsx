@@ -7,6 +7,15 @@ type TransactionListProps = {
 };
 
 function TransactionList({ transactions, onDeleteTransaction }: TransactionListProps) {
+    if (transactions.length === 0) {
+        return (
+            <section>
+                <h2>Transactions</h2>
+                <p>No transactions found</p>
+            </section>
+        )
+    }
+    
     return (
         <section>
             <h2>Transactions</h2>
