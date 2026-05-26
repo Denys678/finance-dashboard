@@ -3,10 +3,14 @@ import { useEffect, useState, useMemo } from "react";
 import type { Transaction } from "./types/transaction";
 import type { TransactionFilterType } from "./types/filter";
 
+import { Route, Routes } from "react-router";
+
 import TransactionList from "./components/TransactionList";
 import SummaryCards from "./components/SummaryCards";
 import TransactionForm from "./components/TransactionForm";
 import TransactionFilters from "./components/TransactionFilters";
+import NotFoundPage from "./pages/NotFoundPage";
+import MainLayout from "./layouts/MainLayout";
 
 const STORAGE_KEY = "finance-dashboard-transactions";
 
@@ -83,16 +87,19 @@ function App() {
   }, [transactions, searchQuery, typeFilter]);
 
   return (
-    <main>
-      <h1>Finance Dashboard</h1>
-      <SummaryCards totalIncome={totalIncome} totalExpenses={totalExpenses} balance={balance} />
+    <Routes>
+      <Route element={<MainLayout />}>
+        <Route index element={<SummaryCards totalIncome={totalIncome} totalExpenses={totalExpenses} balance={balance} />} />
+        <Route path="transactions" element={<>
+          <TransactionForm onAddTransaction={handleAddTransaction} />
 
-      <TransactionForm onAddTransaction={handleAddTransaction}/>
+          <TransactionFilters searchQuery={searchQuery} typeFilter={typeFilter} onSearchChange={setSearchQuery} onTypeFilterChange={setTypeFilter} />
 
-      <TransactionFilters searchQuery={searchQuery} typeFilter={typeFilter} onSearchChange={setSearchQuery} onTypeFilterChange={setTypeFilter}/>
-
-      <TransactionList transactions={filteredTransactions} onDeleteTransaction={handleDeleteTransaction}/>
-    </main>
+          <TransactionList transactions={filteredTransactions} onDeleteTransaction={handleDeleteTransaction} />
+        </>} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Route>
+    </Routes>
   )
 }
 
