@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import type { Transaction } from "./types/transaction";
 
 import TransactionList from "./components/TransactionList";
@@ -43,7 +43,7 @@ function App() {
     }
 
     try {
-      return JSON.parse(savedTransactions) as Transaction[]
+      return JSON.parse(savedTransactions) as Transaction[];
     } catch {
       return initialTransactions;
     }
@@ -51,7 +51,7 @@ function App() {
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
-  }, [transactions])
+  }, [transactions]);
 
   const handleDeleteTransaction = (id: string): void => {
     setTransactions(prev => prev.filter(transaction => transaction.id !== id));
@@ -61,8 +61,8 @@ function App() {
     setTransactions(prev => [transaction, ...prev]);
   }
 
-  const totalIncome = transactions.filter(item => item.type === "income").reduce((acc, item) => acc + item.amount, 0);
-  const totalExpenses = transactions.filter(item => item.type === "expense").reduce((acc, item) => acc + item.amount, 0);
+  const totalIncome  = useMemo(() => {return transactions.filter(item => item.type === "income").reduce((acc, item) => acc + item.amount, 0)}, [transactions]);
+  const totalExpenses = useMemo(() => {return transactions.filter(item => item.type === "expense").reduce((acc, item) => acc + item.amount, 0)}, [transactions]);
   const balance = totalIncome - totalExpenses;
 
   return (
