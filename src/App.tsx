@@ -5,10 +5,8 @@ import type { TransactionFilterType } from "./types/filter";
 
 import { Route, Routes } from "react-router";
 
-import TransactionList from "./components/TransactionList";
-import SummaryCards from "./components/SummaryCards";
-import TransactionForm from "./components/TransactionForm";
-import TransactionFilters from "./components/TransactionFilters";
+import DashboardPage from "./pages/DashboardPage";
+import TransactionsPage from "./pages/TransactionsPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import MainLayout from "./layouts/MainLayout";
 
@@ -89,14 +87,17 @@ function App() {
   return (
     <Routes>
       <Route element={<MainLayout />}>
-        <Route index element={<SummaryCards totalIncome={totalIncome} totalExpenses={totalExpenses} balance={balance} />} />
-        <Route path="transactions" element={<>
-          <TransactionForm onAddTransaction={handleAddTransaction} />
-
-          <TransactionFilters searchQuery={searchQuery} typeFilter={typeFilter} onSearchChange={setSearchQuery} onTypeFilterChange={setTypeFilter} />
-
-          <TransactionList transactions={filteredTransactions} onDeleteTransaction={handleDeleteTransaction} />
-        </>} />
+        <Route index element={<DashboardPage totalIncome={totalIncome} totalExpenses={totalExpenses} balance={balance} />} />
+        <Route path="transactions" element={<TransactionsPage searchQuery={searchQuery} 
+                                                             typeFilter={typeFilter} 
+                                                             transactions={filteredTransactions} 
+                                                             onDeleteTransaction={handleDeleteTransaction} 
+                                                             onAddTransaction={handleAddTransaction} 
+                                                             onSearchChange={setSearchQuery}
+                                                             onTypeFilterChange={setTypeFilter} 
+            />
+          } 
+        />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
