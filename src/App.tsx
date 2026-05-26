@@ -16,13 +16,16 @@ function App() {
     <Routes>
       <Route element={<MainLayout />}>
         <Route index element={<DashboardPage totalIncome={totalIncome} totalExpenses={totalExpenses} balance={balance} />} />
-        <Route path="transactions" element={<TransactionsPage searchQuery={searchQuery} 
-                                                             typeFilter={typeFilter} 
-                                                             transactions={filteredTransactions} 
-                                                             onDeleteTransaction={deleteTransaction} 
-                                                             onAddTransaction={addTransaction} 
-                                                             onSearchChange={setSearchQuery}
-                                                             onTypeFilterChange={setTypeFilter} 
+        <Route 
+          path="transactions" 
+          element={<TransactionsPage 
+            searchQuery={searchQuery} 
+            typeFilter={typeFilter} 
+            transactions={filteredTransactions} 
+            onDeleteTransaction={deleteTransaction} 
+            onAddTransaction={addTransaction} 
+            onSearchChange={setSearchQuery}
+            onTypeFilterChange={setTypeFilter} 
             />
           } 
         />

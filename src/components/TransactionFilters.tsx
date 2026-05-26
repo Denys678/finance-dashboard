@@ -7,7 +7,13 @@ type TransactionFiltersProps = {
     onTypeFilterChange: (typeFilter: TransactionFilterType) => void;
 }
 
-function TransactionFilters({searchQuery, typeFilter, onSearchChange, onTypeFilterChange}:TransactionFiltersProps){
+function TransactionFilters({
+    searchQuery, 
+    typeFilter, 
+    onSearchChange, 
+    onTypeFilterChange
+}:TransactionFiltersProps)
+{
     return (
         <section>
             <h2>Filters</h2>

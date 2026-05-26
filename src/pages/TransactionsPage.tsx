@@ -15,22 +15,25 @@ type TransactionsPageProps = {
   onTypeFilterChange: (typeFilter: TransactionFilterType) => void;
 };
 
-function TransactionPage({transactions, 
-                         onAddTransaction, 
-                         onDeleteTransaction, 
-                         searchQuery, 
-                         typeFilter, 
-                         onSearchChange, 
-                         onTypeFilterChange}: TransactionsPageProps) 
+function TransactionsPage({
+    transactions, 
+    onAddTransaction, 
+    onDeleteTransaction, 
+    searchQuery, 
+    typeFilter, 
+    onSearchChange, 
+    onTypeFilterChange
+}: TransactionsPageProps) 
 {
     return (
         <>
             <TransactionForm onAddTransaction={onAddTransaction} />
 
-            <TransactionFilters searchQuery={searchQuery} 
-                                typeFilter={typeFilter} 
-                                onSearchChange={onSearchChange} 
-                                onTypeFilterChange={onTypeFilterChange} 
+            <TransactionFilters 
+                searchQuery={searchQuery} 
+                typeFilter={typeFilter} 
+                onSearchChange={onSearchChange} 
+                onTypeFilterChange={onTypeFilterChange} 
             />
 
             <TransactionList transactions={transactions} onDeleteTransaction={onDeleteTransaction} />
@@ -39,4 +42,4 @@ function TransactionPage({transactions,
 
 }
 
-export default TransactionPage;
+export default TransactionsPage;
