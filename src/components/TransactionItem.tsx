@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import type { Transaction } from "../types/transaction";
 
 type TransactionItemProps = {
@@ -21,6 +22,7 @@ function TransactionItem({transaction, onDeleteTransaction}: TransactionItemProp
             </div>
             <div>
                 <button onClick={() => onDeleteTransaction(transaction.id)}>Delete</button>
+                <Link to={`/transactions/${transaction.id}`}>View details</Link>
             </div>
         </li>
     )

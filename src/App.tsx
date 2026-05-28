@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router";
 
 import DashboardPage from "./pages/DashboardPage";
 import TransactionsPage from "./pages/TransactionsPage";
+import TransactionDetailsPage from "./pages/TransactionDetailsPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import MainLayout from "./layouts/MainLayout";
 
@@ -29,6 +30,7 @@ function App() {
             />
           } 
         />
+        <Route path="transactions/:id" element={<TransactionDetailsPage transactions={transactions} />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
