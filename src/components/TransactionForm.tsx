@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import type { Transaction, TransactionType } from "../types/transaction";
 
 type TransactionFormProps = {
@@ -12,6 +13,8 @@ function TransactionForm ({onAddTransaction}:TransactionFormProps){
     const [category, setCategory] = useState("");
     const [date, setDate] = useState("");
 
+    const navigate = useNavigate();
+    
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const numericAmount = Number(amount);
@@ -42,6 +45,7 @@ function TransactionForm ({onAddTransaction}:TransactionFormProps){
         };
 
         onAddTransaction(newTransaction);
+        navigate(`/transactions/${newTransaction.id}`);
 
         setTitle("");
         setAmount("");
