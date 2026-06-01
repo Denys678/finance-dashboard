@@ -10,6 +10,9 @@ Currently implemented:
 - Display a list of transactions
 - Add new transactions through a controlled form
 - Delete transactions
+- Edit existing transactions
+- View transaction details on a separate page
+- Navigate to transaction details after creating a transaction
 - Filter transactions by search query
 - Filter transactions by transaction type: all, income, expense
 - Show an empty state when no transactions match the filters
@@ -18,6 +21,7 @@ Currently implemented:
 - Calculate current balance
 - Persist transactions in localStorage
 - Use React Router for multiple pages
+- Use dynamic routes for transaction details and editing
 - Use a shared main layout with navigation
 - Split UI into reusable components
 - Use custom hooks for transaction and filter logic
@@ -25,14 +29,14 @@ Currently implemented:
 
 Planned features:
 
-- Add transaction details page
-- Add dynamic routes with transaction IDs
-- Add edit transaction functionality
 - Add category statistics
 - Add charts and reports
 - Add categories page
 - Add settings page
 - Improve UI styling and responsive layout
+- Add form validation messages
+- Add transaction sorting
+- Add monthly summary
 
 ## Tech Stack
 
@@ -63,6 +67,8 @@ src/
   pages/
     DashboardPage.tsx
     NotFoundPage.tsx
+    TransactionDetailsPage.tsx
+    TransactionEditPage.tsx
     TransactionsPage.tsx
 
   types/
@@ -71,6 +77,16 @@ src/
 
   App.tsx
   main.tsx
+```
+
+## Routes
+
+```txt
+/                         Dashboard page with financial summary
+/transactions              Transactions page with form, filters, and list
+/transactions/:id          Transaction details page
+/transactions/:id/edit     Transaction edit page
+*                          404 not found page
 ```
 
 ## Lerning Goals
@@ -85,14 +101,19 @@ This project is built as a learning project to practice:
 - Custom hooks
 - Derived state
 - Controlled forms
+- Form validation
 - Filtering and searching
 - localStorage
 - React Router
 - Layout routes
+- Dynamic routes
+- useParams
+- useNavigate
 - TypeScript with React
 - Component composition
-- Array methods: map, filter, reduce
+- Array methods: map, filter, reduce, find
 
 ## Status
 
-The project is currently in early development.
+The project is currently in active development.  
+Core transaction functionality is implemented, including adding, deleting, editing, filtering, localStorage persistence, routing, transaction details, and dynamic edit pages.
