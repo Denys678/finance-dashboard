@@ -55,6 +55,14 @@ function useTransactions() {
         );
     };
 
+    const updateTransaction = ( updatedTransaction: Transaction): void => {
+        setTransactions(prev => {
+            return prev.map(item => {
+                return item.id === updatedTransaction.id ? updatedTransaction : item;
+            })
+        })
+    }
+
     const totalIncome  = useMemo(() => {return transactions.filter(item => item.type === "income").reduce((acc, item) => acc + item.amount, 0)}, [transactions]);
     const totalExpenses = useMemo(() => {return transactions.filter(item => item.type === "expense").reduce((acc, item) => acc + item.amount, 0)}, [transactions]);
     const balance = totalIncome - totalExpenses;
@@ -64,6 +72,7 @@ function useTransactions() {
         transactions,
         addTransaction,
         deleteTransaction,
+        updateTransaction,
         totalIncome,
         totalExpenses,
         balance

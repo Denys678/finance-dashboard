@@ -26,6 +26,7 @@ function TransactionDetailsPage({transactions} : TransactionDetailsPageProps) {
             <p>Type: {transaction.type}</p>
             <p>Amount: {transaction.type === "expense" ? `- ${transaction.amount}` : `+ ${transaction.amount}`}</p>
             <p>Date: {transaction.date}</p>
+            <Link to={`/transactions/${transaction.id}/edit`}>Edit transaction</Link>
             <Link to="/transactions">Back to transactions</Link>
         </section>
     );
