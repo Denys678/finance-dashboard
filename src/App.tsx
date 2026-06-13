@@ -12,7 +12,7 @@ import TransactionEditPage from "./pages/TransactionEditPage";
 
 function App() {
   const {transactions, addTransaction, deleteTransaction, updateTransaction, totalIncome, totalExpenses, balance} = useTransactions();
-  const {searchQuery, typeFilter, filteredTransactions, setSearchQuery, setTypeFilter} = useTransactionFilters(transactions);
+  const {searchQuery, typeFilter, sortedTransactions, sortType, setSearchQuery, setTypeFilter, setSortType} = useTransactionFilters(transactions);
 
   return (
     <Routes>
@@ -22,12 +22,14 @@ function App() {
           path="transactions" 
           element={<TransactionsPage 
             searchQuery={searchQuery} 
-            typeFilter={typeFilter} 
-            transactions={filteredTransactions} 
+            typeFilter={typeFilter}
+            typeSort={sortType} 
+            transactions={sortedTransactions} 
             onDeleteTransaction={deleteTransaction} 
             onAddTransaction={addTransaction} 
             onSearchChange={setSearchQuery}
-            onTypeFilterChange={setTypeFilter} 
+            onTypeFilterChange={setTypeFilter}
+            onSortFilterChange={setSortType} 
             />
           } 
         />

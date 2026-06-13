@@ -1,5 +1,5 @@
-import type { Transaction } from "../types/transaction";
-import type { TransactionFilterType } from "../types/filter";
+import type { Transaction, TransactionType } from "../types/transaction";
+import type { TransactionFilterType, TransactionSortType } from "../types/filter";
 
 import TransactionForm from "../components/TransactionForm";
 import TransactionFilters from "../components/TransactionFilters";
@@ -11,8 +11,10 @@ type TransactionsPageProps = {
   onDeleteTransaction: (id: string) => void;
   searchQuery: string;
   typeFilter: TransactionFilterType;
+  typeSort: TransactionSortType;
   onSearchChange: (searchQuery: string) => void;
   onTypeFilterChange: (typeFilter: TransactionFilterType) => void;
+  onSortFilterChange: (typeSort: TransactionSortType) => void;
 };
 
 function TransactionsPage({
@@ -20,9 +22,11 @@ function TransactionsPage({
     onAddTransaction, 
     onDeleteTransaction, 
     searchQuery, 
-    typeFilter, 
+    typeFilter,
+    typeSort, 
     onSearchChange, 
-    onTypeFilterChange
+    onTypeFilterChange,
+    onSortFilterChange
 }: TransactionsPageProps) 
 {
     return (
@@ -33,7 +37,9 @@ function TransactionsPage({
                 searchQuery={searchQuery} 
                 typeFilter={typeFilter} 
                 onSearchChange={onSearchChange} 
-                onTypeFilterChange={onTypeFilterChange} 
+                onTypeFilterChange={onTypeFilterChange}
+                onSortFilterChange={onSortFilterChange}
+                typeSort={typeSort} 
             />
 
             <TransactionList transactions={transactions} onDeleteTransaction={onDeleteTransaction} />
