@@ -1,17 +1,21 @@
-import type { TransactionFilterType } from "../types/filter";
+import type { TransactionFilterType, TransactionSortType } from "../types/filter";
 
 type TransactionFiltersProps = {
     searchQuery: string;
     typeFilter: TransactionFilterType;
+    typeSort: TransactionSortType;
     onSearchChange: (searchQuery: string) => void;
     onTypeFilterChange: (typeFilter: TransactionFilterType) => void;
+    onSortFilterChange: (typeSort: TransactionSortType) => void;
 }
 
 function TransactionFilters({
     searchQuery, 
-    typeFilter, 
+    typeFilter,
+    typeSort, 
     onSearchChange, 
-    onTypeFilterChange
+    onTypeFilterChange,
+    onSortFilterChange
 }:TransactionFiltersProps)
 {
     return (
@@ -22,6 +26,12 @@ function TransactionFilters({
                 <option value="all">All</option>
                 <option value="income">Income</option>
                 <option value="expense">Expense</option>
+            </select>
+            <select value={typeSort} onChange={(e) => onSortFilterChange(e.target.value as TransactionSortType)}>
+                <option value="newest">Newest</option>
+                <option value="oldest">Oldest</option>
+                <option value="highest">Highest</option>
+                <option value="lowest">Lowest</option>
             </select>
         </section>
     )
