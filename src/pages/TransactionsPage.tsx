@@ -1,4 +1,4 @@
-import type { Transaction, TransactionType } from "../types/transaction";
+import type { Transaction} from "../types/transaction";
 import type { TransactionFilterType, TransactionSortType } from "../types/filter";
 
 import TransactionForm from "../components/TransactionForm";

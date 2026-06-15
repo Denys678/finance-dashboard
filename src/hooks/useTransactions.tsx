@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import type { Transaction } from "../types/transaction";
+import type { CategoryStatistic } from "../types/statistics";
 
 const STORAGE_KEY = "finance-dashboard-transactions";
 
@@ -66,6 +67,44 @@ function useTransactions() {
     const totalIncome  = useMemo(() => {return transactions.filter(item => item.type === "income").reduce((acc, item) => acc + item.amount, 0)}, [transactions]);
     const totalExpenses = useMemo(() => {return transactions.filter(item => item.type === "expense").reduce((acc, item) => acc + item.amount, 0)}, [transactions]);
     const balance = totalIncome - totalExpenses;
+
+    const expenseCategoryStatistics = useMemo(() => {
+        return transactions
+        .filter(transaction => transaction.type === 'expense')
+            .reduce<CategoryStatistic[]>((acc, transaction) => {
+                const existingCategory = acc.find(item => item.category === transaction.category);
+
+                if (existingCategory) {
+                    existingCategory.total += transaction.amount;
+                }else {
+                    acc.push({
+                        category: transaction.category,
+                        total: transaction.amount,
+                    });
+                }
+
+                return acc;
+            }, [])
+    }, [transactions])
+
+    const incomeCategoryStatistics = useMemo(() => {
+        return transactions
+        .filter(transaction => transaction.type === 'income')
+            .reduce<CategoryStatistic[]>((acc, transaction) => {
+                const existingCategory = acc.find(item => item.category === transaction.category);
+                
+                if(existingCategory) {
+                    existingCategory.total += transaction.amount;
+                }else {
+                    acc.push({
+                        category: transaction.category,
+                        total: transaction.amount,
+                    });
+                }
+
+                return acc;
+            }, [])
+    }, [transactions])
     
 
     return {
@@ -75,7 +114,9 @@ function useTransactions() {
         updateTransaction,
         totalIncome,
         totalExpenses,
-        balance
+        balance,
+        expenseCategoryStatistics,
+        incomeCategoryStatistics,
     };
 }
 
