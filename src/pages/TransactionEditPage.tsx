@@ -45,11 +45,11 @@ function TransactionEditPage({transactions, onUpdateTransaction}:TransactionEdit
         }
 
         const updatedTransaction: Transaction = {
-            id: id,
+            id: transaction.id,
             title: transactionTitle.trim(),
             amount: numericAmount,
-            type: type,
-            category: category.trim(),
+            type,
+            category: category.trim().toLowerCase(),
             date: date,
         };
 

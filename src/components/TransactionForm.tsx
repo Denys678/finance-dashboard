@@ -40,7 +40,7 @@ function TransactionForm ({onAddTransaction}:TransactionFormProps){
             title: title.trim(),
             amount: numericAmount,
             type,
-            category: category.trim(),
+            category: category.trim().toLowerCase(),
             date,   
         };
 
