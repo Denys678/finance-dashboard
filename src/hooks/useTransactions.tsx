@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import type { Transaction } from "../types/transaction";
-import type { CategoryStatistic } from "../types/statistics";
+import getCategoryStatistics from "../utils/getCategoryStatistics";
 
 const STORAGE_KEY = "finance-dashboard-transactions";
 
@@ -68,43 +68,8 @@ function useTransactions() {
     const totalExpenses = useMemo(() => {return transactions.filter(item => item.type === "expense").reduce((acc, item) => acc + item.amount, 0)}, [transactions]);
     const balance = totalIncome - totalExpenses;
 
-    const expenseCategoryStatistics = useMemo(() => {
-        return transactions
-        .filter(transaction => transaction.type === 'expense')
-            .reduce<CategoryStatistic[]>((acc, transaction) => {
-                const existingCategory = acc.find(item => item.category === transaction.category);
-
-                if (existingCategory) {
-                    existingCategory.total += transaction.amount;
-                }else {
-                    acc.push({
-                        category: transaction.category,
-                        total: transaction.amount,
-                    });
-                }
-
-                return acc;
-            }, [])
-    }, [transactions])
-
-    const incomeCategoryStatistics = useMemo(() => {
-        return transactions
-        .filter(transaction => transaction.type === 'income')
-            .reduce<CategoryStatistic[]>((acc, transaction) => {
-                const existingCategory = acc.find(item => item.category === transaction.category);
-                
-                if(existingCategory) {
-                    existingCategory.total += transaction.amount;
-                }else {
-                    acc.push({
-                        category: transaction.category,
-                        total: transaction.amount,
-                    });
-                }
-
-                return acc;
-            }, [])
-    }, [transactions])
+    const expenseCategoryStatistics = useMemo(() => getCategoryStatistics(transactions, 'expense'), [transactions]);
+    const incomeCategoryStatistics = useMemo(() => getCategoryStatistics(transactions, 'income'), [transactions]);
     
 
     return {
