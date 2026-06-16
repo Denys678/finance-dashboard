@@ -1,42 +1,51 @@
 # Finance Dashboard
 
-Finance Dashboard is a React + TypeScript project for tracking income and expenses.  
-The goal of this project is to practice core React concepts such as components, props, state, derived state, routing, forms, filtering, localStorage, and basic financial statistics.
+A multi-page personal finance dashboard built with React and TypeScript.
+
+The application allows users to create, edit, delete, search, filter, and sort financial transactions. It also provides overall and monthly financial summaries, including income and expense statistics grouped by category.
 
 ## Features
 
-Currently implemented:
-
-- Display a list of transactions
-- Add new transactions through a controlled form
-- Delete transactions
+- Add income and expense transactions
 - Edit existing transactions
+- Delete transactions
 - View transaction details on a separate page
-- Navigate to transaction details after creating a transaction
-- Filter transactions by search query
-- Filter transactions by transaction type: all, income, expense
-- Show an empty state when no transactions match the filters
+- Navigate to transaction details after creating or editing a transaction
+- Search transactions by title or category
+- Filter transactions by type:
+  - All
+  - Income
+  - Expense
+- Sort transactions by:
+  - Newest date
+  - Oldest date
+  - Highest amount
+  - Lowest amount
 - Calculate total income
 - Calculate total expenses
-- Calculate current balance
-- Persist transactions in localStorage
-- Use React Router for multiple pages
-- Use dynamic routes for transaction details and editing
-- Use a shared main layout with navigation
-- Split UI into reusable components
-- Use custom hooks for transaction and filter logic
-- Use TypeScript types for transaction and filter data
+- Calculate the current balance
+- Display income statistics by category
+- Display expense statistics by category
+- Select a month and view:
+  - Monthly income
+  - Monthly expenses
+  - Monthly balance
+  - Monthly income statistics by category
+  - Monthly expense statistics by category
+- Automatically select the current month
+- Persist transactions in `localStorage`
+- Normalize category names for consistent grouping
+- Handle unknown routes with a custom 404 page
 
-Planned features:
+## Routes
 
-- Add category statistics
-- Add charts and reports
-- Add categories page
-- Add settings page
-- Improve UI styling and responsive layout
-- Add form validation messages
-- Add transaction sorting
-- Add monthly summary
+|          Route           |                      Description                         |
+| ------------------------ | -------------------------------------------------------- |
+| `/`                      | Dashboard with general and monthly statistics            |
+| `/transactions`          | Transaction form, filters, sorting, and transaction list |
+| `/transactions/:id`      | Details of a specific transaction                        |
+| `/transactions/:id/edit` | Edit form for a specific transaction                     |
+| `*`                      | 404 Not Found page                                       |
 
 ## Tech Stack
 
@@ -44,76 +53,159 @@ Planned features:
 - TypeScript
 - Vite
 - React Router
-- localStorage
+- CSS
+- Browser `localStorage`
 
 ## Project Structure
 
-```txt
+```text
 src/
-  components/
-    SummaryCards.tsx
-    TransactionFilters.tsx
-    TransactionForm.tsx
-    TransactionItem.tsx
-    TransactionList.tsx
-
-  hooks/
-    useTransactionFilters.ts
-    useTransactions.ts
-
-  layouts/
-    MainLayout.tsx
-
-  pages/
-    DashboardPage.tsx
-    NotFoundPage.tsx
-    TransactionDetailsPage.tsx
-    TransactionEditPage.tsx
-    TransactionsPage.tsx
-
-  types/
-    filter.ts
-    transaction.ts
-
-  App.tsx
-  main.tsx
+├── components/
+│   ├── CategoryStatistics.tsx
+│   ├── MonthlySummary.tsx
+│   ├── SummaryCards.tsx
+│   ├── TransactionFilters.tsx
+│   ├── TransactionForm.tsx
+│   ├── TransactionItem.tsx
+│   └── TransactionList.tsx
+│
+├── hooks/
+│   ├── useMonthlyStatistics.ts
+│   ├── useTransactionFilters.ts
+│   └── useTransactions.ts
+│
+├── layouts/
+│   └── MainLayout.tsx
+│
+├── pages/
+│   ├── DashboardPage.tsx
+│   ├── NotFoundPage.tsx
+│   ├── TransactionDetailsPage.tsx
+│   ├── TransactionEditPage.tsx
+│   └── TransactionsPage.tsx
+│
+├── types/
+│   ├── filter.ts
+│   ├── statistics.ts
+│   └── transaction.ts
+│
+├── utils/
+│   ├── getCategoryStatistics.ts
+│   └── getTransactionSummary.ts
+│
+├── App.tsx
+├── index.css
+└── main.tsx
 ```
 
-## Routes
+## Architecture
 
-```txt
-/                         Dashboard page with financial summary
-/transactions              Transactions page with form, filters, and list
-/transactions/:id          Transaction details page
-/transactions/:id/edit     Transaction edit page
-*                          404 not found page
-```
+The application separates UI, state management, routing, and calculation logic into different layers.
 
-## Lerning Goals
+- `components` contain reusable interface elements
+- `pages`      represent individual application routes
+- `layouts`    contain shared page structure and navigation
+- `hooks`      manage transactions, filtering, sorting, and monthly statistics
+- `utils`      contain reusable calculation functions independent of React
+- `types`      contain shared TypeScript type definitions
 
-This project is built as a learning project to practice:
+## Main React Concepts Practiced
 
-- React components
-- Props
-- useState
-- useEffect
-- useMemo
-- Custom hooks
-- Derived state
+- Functional components
+- Props and callback props
 - Controlled forms
-- Form validation
-- Filtering and searching
-- localStorage
+- Derived state
+- Immutable state updates
+- `useState`
+- `useEffect`
+- `useMemo`
+- Custom hooks
 - React Router
 - Layout routes
 - Dynamic routes
-- useParams
-- useNavigate
-- TypeScript with React
-- Component composition
-- Array methods: map, filter, reduce, find
+- `useParams`
+- `useNavigate`
+- TypeScript props and data models
+- Array methods:
+  - `map`
+  - `filter`
+  - `reduce`
+  - `find`
+  - `sort`
+
+## Data Persistence
+
+Transactions are stored in the browser using `localStorage`.
+
+When the application starts, saved transactions are loaded from storage. Whenever the transaction list changes, the updated data is saved automatically.
+
+## Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/Denys678/finance-dashboard.git
+```
+
+### 2. Open the project directory
+
+```bash
+cd finance-dashboard
+```
+
+### 3. Install dependencies
+
+```bash
+npm install
+```
+
+### 4. Start the development server
+
+```bash
+npm run dev
+```
+
+The terminal will display the local development address.
+
+## Available Scripts
+
+### Start the development server
+
+```bash
+npm run dev
+```
+
+### Create a production build
+
+```bash
+npm run build
+```
+
+### Run ESLint checks
+
+```bash
+npm run lint
+```
+
+### Preview the production build
+
+```bash
+npm run preview
+```
+
+## Planned Improvements
+
+- Add charts for income and expense statistics
+- Improve the visual design
+- Add responsive layouts for mobile devices
+- Add visible form validation messages
+- Add confirmation before deleting a transaction
+- Create reusable form logic for adding and editing transactions
+- Add automated tests
+- Deploy the application
 
 ## Status
 
-The project is currently in active development.  
-Core transaction functionality is implemented, including adding, deleting, editing, filtering, localStorage persistence, routing, transaction details, and dynamic edit pages.
+The project is currently under active development.
+
+Core transaction management, routing, filtering, sorting, category statistics, monthly statistics, and local persistence are implemented.
