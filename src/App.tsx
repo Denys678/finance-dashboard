@@ -5,14 +5,16 @@ import TransactionsPage from "./pages/TransactionsPage";
 import TransactionDetailsPage from "./pages/TransactionDetailsPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import MainLayout from "./layouts/MainLayout";
+import TransactionEditPage from "./pages/TransactionEditPage";
 
 import useTransactions from "./hooks/useTransactions";
 import useTransactionFilters from "./hooks/useTransactionFilters";
-import TransactionEditPage from "./pages/TransactionEditPage";
+import useMonthlyStatistics from "./hooks/useMonthlyStatistics";
 
 function App() {
   const {transactions, addTransaction, deleteTransaction, updateTransaction, totalIncome, totalExpenses, balance, expenseCategoryStatistics, incomeCategoryStatistics} = useTransactions();
   const {searchQuery, typeFilter, sortedTransactions, sortType, setSearchQuery, setTypeFilter, setSortType} = useTransactionFilters(transactions);
+  const {selectedMonth, setSelectedMonth, monthlyIncome, monthlyBalance, monthlyExpenses} = useMonthlyStatistics(transactions);
 
   return (
     <Routes>
@@ -24,6 +26,11 @@ function App() {
             balance={balance} 
             expenseCategoryStatistics={expenseCategoryStatistics}
             incomeCategoryStatistics={incomeCategoryStatistics}
+            selectedMonth={selectedMonth}
+            onMonthChange={setSelectedMonth}
+            monthlyIncome={monthlyIncome}
+            monthlyBalance={monthlyBalance}
+            monthlyExpenses={monthlyExpenses}
             />
           } 
         />
