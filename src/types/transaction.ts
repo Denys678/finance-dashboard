@@ -7,4 +7,4 @@ export type Transaction = {
     type: TransactionType;
     category: string;
     date: string;
-}
+};
