@@ -15,6 +15,8 @@ type DashboardPageProps = {
     monthlyIncome: number;
     monthlyExpenses: number;
     monthlyBalance: number;
+    monthlyIncomeCategoryStatistics: CategoryStatistic[];
+    monthlyExpenseCategoryStatistics: CategoryStatistic[];
 }
 
 function DashboardPage({
@@ -27,7 +29,9 @@ function DashboardPage({
     onMonthChange,
     monthlyIncome,
     monthlyExpenses,
-    monthlyBalance
+    monthlyBalance,
+    monthlyIncomeCategoryStatistics,
+    monthlyExpenseCategoryStatistics,
 }: DashboardPageProps) {
     return (
         <div className="dashboard-page">
@@ -38,6 +42,8 @@ function DashboardPage({
                 {monthlyExpenses}
                 onMonthChange={onMonthChange}
                 selectedMonth={selectedMonth}
+                monthlyExpenseCategoryStatistics={monthlyExpenseCategoryStatistics}
+                monthlyIncomeCategoryStatistics={monthlyIncomeCategoryStatistics}
             />
             <CategoryStatistics statistics={expenseCategoryStatistics} title="Expenses by category"/>
             <CategoryStatistics statistics={incomeCategoryStatistics} title="Income by category" />
