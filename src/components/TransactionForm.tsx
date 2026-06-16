@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import type { Transaction, TransactionType } from "../types/transaction";
+import validateTransactionForm from "../utils/validateTransactionForm";
 
 type TransactionFormProps = {
     onAddTransaction: (transaction:Transaction) => void;
@@ -13,25 +14,25 @@ function TransactionForm ({onAddTransaction}:TransactionFormProps){
     const [category, setCategory] = useState("");
     const [date, setDate] = useState("");
 
+    const [formError, setFormError] = useState("");
+
     const navigate = useNavigate();
     
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const numericAmount = Number(amount);
 
-        if (!title.trim()) {
-            return;
-        }
+        setFormError("");
 
-        if (!category.trim()) {
-            return;
-        }
+         const validationError = validateTransactionForm({
+            title,
+            amount,
+            category,
+            date,
+        });
 
-        if (!date) {
-            return;
-        }
-
-        if (!amount || !Number.isFinite(numericAmount) || numericAmount <= 0) {
+        if(validationError) {
+            setFormError(validationError);
             return;
         }
 
@@ -65,6 +66,7 @@ function TransactionForm ({onAddTransaction}:TransactionFormProps){
             </select>
             <input placeholder="Transaction category" value={category} onChange={(e) => setCategory(e.target.value)}></input>
             <input placeholder="Transaction date" type="date" value={date} onChange={(e) => setDate(e.target.value)}></input>
+            {formError && <p role="alert">{formError}</p>}
             <button type="submit">Add transaction</button>
         </form>
     )

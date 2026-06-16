@@ -2,6 +2,8 @@ import { useState } from "react";
 import type { TransactionType, Transaction } from "../types/transaction";
 import { useNavigate, useParams } from "react-router";
 
+import validateTransactionForm from "../utils/validateTransactionForm";
+
 type TransactionEditPageProps = {
     transactions: Transaction[];
     onUpdateTransaction: (transaction:Transaction) => void;
@@ -17,30 +19,29 @@ function TransactionEditPage({transactions, onUpdateTransaction}:TransactionEdit
     const [category, setCategory] = useState(transaction?.category ?? "");
     const [date, setDate] = useState(transaction?.date ?? "");
 
+    const [formError, setFormError] = useState("");
+
     const navigate = useNavigate();
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
         const numericAmount = Number(transactionAmount);
 
-        if(!id || !transaction) {
+        setFormError("");
+
+        const validationError = validateTransactionForm({
+            title: transactionTitle,
+            amount: transactionAmount,
+            category,
+            date,
+        });
+
+        if(validationError) {
+            setFormError(validationError);
             return;
         }
 
-         if (!transactionTitle.trim()) {
-            return;
-        }
-
-        if (!category.trim()) {
-            return;
-        }
-
-        if (!date) {
-            return;
-        }
-
-        if (!transactionAmount || !Number.isFinite(numericAmount) || numericAmount <= 0) {
+        if(!transaction) {
             return;
         }
 
@@ -77,6 +78,7 @@ function TransactionEditPage({transactions, onUpdateTransaction}:TransactionEdit
                 </select>
                 <input type="text" value={category} onChange={(e) => setCategory(e.target.value)} />
                 <input type="date" value={date} onChange={(e) => setDate(e.target.value)}/>
+                {formError && <p role="alert">{formError}</p>}
                 <button type="submit">Save changes</button>
             </form>
         </section>
