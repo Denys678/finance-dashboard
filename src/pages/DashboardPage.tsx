@@ -3,6 +3,7 @@ import CategoryStatistics from "../components/CategoryStatistics";
 
 import type { CategoryStatistic } from "../types/statistics";
 import MonthlySummary from "../components/MonthlySummary";
+import type { CurrencyCode } from "../types/currency";
 
 type DashboardPageProps = {
     totalIncome: number;
@@ -17,6 +18,7 @@ type DashboardPageProps = {
     monthlyBalance: number;
     monthlyIncomeCategoryStatistics: CategoryStatistic[];
     monthlyExpenseCategoryStatistics: CategoryStatistic[];
+    currency: CurrencyCode;
 }
 
 function DashboardPage({
@@ -32,10 +34,11 @@ function DashboardPage({
     monthlyBalance,
     monthlyIncomeCategoryStatistics,
     monthlyExpenseCategoryStatistics,
+    currency
 }: DashboardPageProps) {
     return (
         <div className="dashboard-page">
-            <SummaryCards totalIncome={totalIncome} totalExpenses={totalExpenses} balance={balance} />
+            <SummaryCards totalIncome={totalIncome} totalExpenses={totalExpenses} balance={balance} currency={currency} />
             <MonthlySummary
                 monthlyBalance={monthlyBalance}
                 monthlyIncome={monthlyIncome} monthlyExpenses=
@@ -44,9 +47,10 @@ function DashboardPage({
                 selectedMonth={selectedMonth}
                 monthlyExpenseCategoryStatistics={monthlyExpenseCategoryStatistics}
                 monthlyIncomeCategoryStatistics={monthlyIncomeCategoryStatistics}
+                currency={currency}
             />
-            <CategoryStatistics statistics={expenseCategoryStatistics} title="Expenses by category"/>
-            <CategoryStatistics statistics={incomeCategoryStatistics} title="Income by category" />
+            <CategoryStatistics statistics={expenseCategoryStatistics} title="Expenses by category" currency={currency} />
+            <CategoryStatistics statistics={incomeCategoryStatistics} title="Income by category" currency={currency} />
         </div>
     )
 }

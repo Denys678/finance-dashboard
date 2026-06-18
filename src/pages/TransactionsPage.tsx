@@ -4,6 +4,7 @@ import type { TransactionFilterType, TransactionSortType } from "../types/filter
 import TransactionForm from "../components/TransactionForm";
 import TransactionFilters from "../components/TransactionFilters";
 import TransactionList from "../components/TransactionList";
+import type { CurrencyCode } from "../types/currency";
 
 type TransactionsPageProps = {
   transactions: Transaction[];
@@ -16,6 +17,7 @@ type TransactionsPageProps = {
   onTypeFilterChange: (typeFilter: TransactionFilterType) => void;
   onSortFilterChange: (typeSort: TransactionSortType) => void;
   onClearFilters: () => void;
+  currency: CurrencyCode;
 };
 
 function TransactionsPage({
@@ -28,7 +30,8 @@ function TransactionsPage({
     onSearchChange, 
     onTypeFilterChange,
     onSortFilterChange,
-    onClearFilters
+    onClearFilters,
+    currency
 }: TransactionsPageProps) 
 {
     return (
@@ -45,7 +48,7 @@ function TransactionsPage({
                 clearFilters={onClearFilters} 
             />
 
-            <TransactionList transactions={transactions} onDeleteTransaction={onDeleteTransaction} />
+            <TransactionList transactions={transactions} onDeleteTransaction={onDeleteTransaction} currency={currency}/>
         </>
     )
 
