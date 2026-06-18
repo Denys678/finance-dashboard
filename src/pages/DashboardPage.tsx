@@ -1,9 +1,9 @@
 import SummaryCards from "../components/SummaryCards";
-import CategoryStatistics from "../components/CategoryStatistics";
 
 import type { CategoryStatistic } from "../types/statistics";
 import MonthlySummary from "../components/MonthlySummary";
 import type { CurrencyCode } from "../types/currency";
+import CategoryBarChart from "../components/CategoryBarChart";
 
 type DashboardPageProps = {
     totalIncome: number;
@@ -41,16 +41,16 @@ function DashboardPage({
             <SummaryCards totalIncome={totalIncome} totalExpenses={totalExpenses} balance={balance} currency={currency} />
             <MonthlySummary
                 monthlyBalance={monthlyBalance}
-                monthlyIncome={monthlyIncome} monthlyExpenses=
-                {monthlyExpenses}
+                monthlyIncome={monthlyIncome} 
+                monthlyExpenses={monthlyExpenses}
                 onMonthChange={onMonthChange}
                 selectedMonth={selectedMonth}
                 monthlyExpenseCategoryStatistics={monthlyExpenseCategoryStatistics}
                 monthlyIncomeCategoryStatistics={monthlyIncomeCategoryStatistics}
                 currency={currency}
             />
-            <CategoryStatistics statistics={expenseCategoryStatistics} title="Expenses by category" currency={currency} />
-            <CategoryStatistics statistics={incomeCategoryStatistics} title="Income by category" currency={currency} />
+            <CategoryBarChart statistics={expenseCategoryStatistics} title="Expenses by category" currency={currency} />
+            <CategoryBarChart statistics={incomeCategoryStatistics} title="Income by category" currency={currency} />
         </div>
     )
 }
