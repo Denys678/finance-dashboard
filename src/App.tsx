@@ -10,15 +10,17 @@ import TransactionEditPage from "./pages/TransactionEditPage";
 import useTransactions from "./hooks/useTransactions";
 import useTransactionFilters from "./hooks/useTransactionFilters";
 import useMonthlyStatistics from "./hooks/useMonthlyStatistics";
+import useCurrency from "./hooks/useCurrency";
 
 function App() {
   const {transactions, addTransaction, deleteTransaction, updateTransaction, totalIncome, totalExpenses, balance, expenseCategoryStatistics, incomeCategoryStatistics} = useTransactions();
   const {searchQuery, typeFilter, sortedTransactions, sortType, setSearchQuery, setTypeFilter, setSortType, clearFilters} = useTransactionFilters(transactions);
   const {selectedMonth, setSelectedMonth, monthlyIncome, monthlyBalance, monthlyExpenses, monthlyExpenseCategoryStatistics, monthlyIncomeCategoryStatistics} = useMonthlyStatistics(transactions);
+  const { currency, setCurrency } = useCurrency();
 
   return (
     <Routes>
-      <Route element={<MainLayout />}>
+      <Route element={<MainLayout currency={currency} onCurrencyChange={setCurrency}/>}>
         <Route 
           index element={<DashboardPage 
             totalIncome={totalIncome} 
@@ -33,6 +35,7 @@ function App() {
             monthlyExpenses={monthlyExpenses}
             monthlyExpenseCategoryStatistics={monthlyExpenseCategoryStatistics}
             monthlyIncomeCategoryStatistics={monthlyIncomeCategoryStatistics}
+            currency={currency}
             />
           } 
         />
@@ -48,12 +51,13 @@ function App() {
             onSearchChange={setSearchQuery}
             onTypeFilterChange={setTypeFilter}
             onSortFilterChange={setSortType}
-            onClearFilters={clearFilters} 
+            onClearFilters={clearFilters}
+            currency={currency} 
             />
           } 
         />
         <Route path="transactions/:id/edit" element={<TransactionEditPage transactions={transactions} onUpdateTransaction={updateTransaction} />} />
-        <Route path="transactions/:id" element={<TransactionDetailsPage transactions={transactions} />} />
+        <Route path="transactions/:id" element={<TransactionDetailsPage transactions={transactions} currency={currency} />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>

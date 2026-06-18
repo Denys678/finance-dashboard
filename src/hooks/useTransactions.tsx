@@ -1,8 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import type { Transaction } from "../types/transaction";
 import getCategoryStatistics from "../utils/getCategoryStatistics";
-
-const STORAGE_KEY = "finance-dashboard-transactions";
+import { TRANSACTIONS_STORAGE_KEY } from "../constants/storageKeys";
 
 const initialTransactions: Transaction[] = [
   {
@@ -33,7 +32,7 @@ const initialTransactions: Transaction[] = [
 
 function useTransactions() {
     const [transactions, setTransactions] = useState<Transaction[]>(() => {
-        const savedTransactions = localStorage.getItem(STORAGE_KEY);
+        const savedTransactions = localStorage.getItem(TRANSACTIONS_STORAGE_KEY);
 
         if (!savedTransactions) {
             return initialTransactions;
@@ -46,7 +45,7 @@ function useTransactions() {
         }
     });
 
-    useEffect(() => {localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));}, [transactions]);
+    useEffect(() => {localStorage.setItem(TRANSACTIONS_STORAGE_KEY, JSON.stringify(transactions));}, [transactions]);
 
     const addTransaction = (transaction: Transaction): void => {setTransactions((prev) => [transaction, ...prev]);};
 

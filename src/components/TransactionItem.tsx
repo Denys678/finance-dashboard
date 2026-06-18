@@ -2,15 +2,18 @@ import { Link } from "react-router";
 import type { Transaction } from "../types/transaction";
 import { useState } from "react";
 import ConfirmDialog from "./ConfirmDialog";
+import { formatCurrency } from "../utils/formatCurrency";
+import type { CurrencyCode } from "../types/currency";
 
 type TransactionItemProps = {
     transaction: Transaction;
     onDeleteTransaction: (id: string) => void;
+    currency: CurrencyCode;
 };
 
-function TransactionItem({ transaction, onDeleteTransaction }: TransactionItemProps) {
+function TransactionItem({ transaction, onDeleteTransaction, currency }: TransactionItemProps) {
     const amountPrefix: string = transaction.type === "income" ? "+" : "-";
-    const formattedAmount: string = `${amountPrefix}${transaction.amount}`;
+    const formattedAmount: string = `${amountPrefix}${formatCurrency(transaction.amount, currency)}`;
 
     const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
@@ -28,7 +31,7 @@ function TransactionItem({ transaction, onDeleteTransaction }: TransactionItemPr
                 <button type="button" onClick={() => setIsConfirmOpen(true)}>Delete</button>
                 {isConfirmOpen && (<ConfirmDialog
                     title="Delete transaction"
-                    message= {`Are you sure you want to delete transaction ${transaction.title}`}
+                    message= {`Are you sure you want to delete transaction ${transaction.title}?`}
                     onConfirm={() => onDeleteTransaction(transaction.id)}
                     onCancel={() => setIsConfirmOpen(false)}
                 />

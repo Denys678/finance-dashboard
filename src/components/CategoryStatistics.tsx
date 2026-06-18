@@ -1,11 +1,14 @@
+import type { CurrencyCode } from "../types/currency";
 import type { CategoryStatistic } from "../types/statistics";
+import { formatCurrency } from "../utils/formatCurrency";
 
 type CategoryStatisticsProps = {
     statistics: CategoryStatistic[];
     title: string;
+    currency: CurrencyCode;
 }
 
-function CategoryStatistics({statistics, title}: CategoryStatisticsProps) {
+function CategoryStatistics({statistics, title, currency}: CategoryStatisticsProps) {
     if (statistics.length === 0) {
         return (
             <section>
@@ -21,7 +24,7 @@ function CategoryStatistics({statistics, title}: CategoryStatisticsProps) {
             <ul>
                 {statistics.map((statistic) => 
                     <li key={statistic.category}>
-                        {statistic.category}: {statistic.total}
+                        {statistic.category}: {formatCurrency(statistic.total, currency)}
                     </li>
                 )}
             </ul>

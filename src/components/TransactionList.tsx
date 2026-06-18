@@ -1,12 +1,14 @@
+import type { CurrencyCode } from "../types/currency";
 import type { Transaction } from "../types/transaction";
 import TransactionItem from "./TransactionItem";
 
 type TransactionListProps = {
     transactions: Transaction[];
     onDeleteTransaction:(id: string) => void;
+    currency: CurrencyCode;
 };
 
-function TransactionList({ transactions, onDeleteTransaction }: TransactionListProps) {
+function TransactionList({ transactions, onDeleteTransaction, currency }: TransactionListProps) {
     if (transactions.length === 0) {
         return (
             <section>
@@ -21,7 +23,7 @@ function TransactionList({ transactions, onDeleteTransaction }: TransactionListP
             <h2>Transactions</h2>
             <ul>
                 {transactions.map(transaction => (
-                    <TransactionItem key={transaction.id} transaction={transaction} onDeleteTransaction={onDeleteTransaction} />
+                    <TransactionItem key={transaction.id} transaction={transaction} onDeleteTransaction={onDeleteTransaction} currency={currency}/>
                 ))}
             </ul>
         </section>
