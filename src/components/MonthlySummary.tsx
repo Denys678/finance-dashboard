@@ -1,7 +1,7 @@
 import SummaryCards from "./SummaryCards";
 import type { CategoryStatistic } from "../types/statistics";
-import CategoryStatistics from "./CategoryStatistics";
 import type { CurrencyCode } from "../types/currency";
+import CategoryBarChart from "./CategoryBarChart";
 
 type MonthlySummaryProps = {
     selectedMonth: string;
@@ -14,8 +14,7 @@ type MonthlySummaryProps = {
     currency: CurrencyCode;
 }
 
-function MonthlySummary
-    ({
+function MonthlySummary({
         selectedMonth,
         onMonthChange,
         monthlyIncome,
@@ -28,10 +27,10 @@ function MonthlySummary
     return (
         <section>
             <h2>Monthly summary</h2>
-            <input type="month" value={selectedMonth} onChange={(e) => onMonthChange(e.target.value)}></input>
+            <input type="month" value={selectedMonth} onChange={(e) => onMonthChange(e.target.value)} />
             <SummaryCards totalIncome={monthlyIncome} totalExpenses={monthlyExpenses} balance={monthlyBalance} currency={currency}/>
-            <CategoryStatistics statistics={monthlyExpenseCategoryStatistics} title="Monthly expenses by category" currency={currency}/>
-            <CategoryStatistics statistics={monthlyIncomeCategoryStatistics} title="Monthly income by category" currency={currency}/>
+            <CategoryBarChart statistics={monthlyExpenseCategoryStatistics} title="Monthly expenses by category" currency={currency} />
+            <CategoryBarChart statistics={monthlyIncomeCategoryStatistics} title="Monthly income by category" currency={currency}/>
         </section>
     )
 }
