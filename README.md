@@ -2,13 +2,13 @@
 
 A multi-page personal finance dashboard built with React and TypeScript.
 
-The application allows users to create, edit, delete, search, filter, and sort financial transactions. It also provides overall and monthly financial summaries, including income and expense statistics grouped by category.
+The application allows users to create, edit, delete, search, filter, and sort financial transactions. It also provides overall and monthly financial summaries, category-based charts, currency formatting, and persistent user preferences.
 
 ## Features
 
 - Add income and expense transactions
 - Edit existing transactions
-- Delete transactions
+- Delete transactions with a confirmation dialog
 - View transaction details on a separate page
 - Navigate to transaction details after creating or editing a transaction
 - Search transactions by title or category
@@ -21,11 +21,13 @@ The application allows users to create, edit, delete, search, filter, and sort f
   - Oldest date
   - Highest amount
   - Lowest amount
+- Clear all active filters and sorting settings
 - Calculate total income
 - Calculate total expenses
 - Calculate the current balance
 - Display income statistics by category
 - Display expense statistics by category
+- Display category statistics as horizontal bar charts
 - Select a month and view:
   - Monthly income
   - Monthly expenses
@@ -33,13 +35,26 @@ The application allows users to create, edit, delete, search, filter, and sort f
   - Monthly income statistics by category
   - Monthly expense statistics by category
 - Automatically select the current month
+- Select display currency:
+  - UAH
+  - USD
+  - EUR
+- Format all money values according to the selected currency and browser locale
 - Persist transactions in `localStorage`
+- Persist selected currency in `localStorage`
 - Normalize category names for consistent grouping
+- Show visible form validation messages
 - Handle unknown routes with a custom 404 page
+
+## Currency Note
+
+The selected currency controls how amounts are displayed across the application.
+
+The app does not perform real exchange rate conversion. For example, if the user selects USD, the entered amounts are treated and displayed as USD values.
 
 ## Routes
 
-|          Route           |                      Description                         |
+|          Route           |                       Description                        |
 | ------------------------ | -------------------------------------------------------- |
 | `/`                      | Dashboard with general and monthly statistics            |
 | `/transactions`          | Transaction form, filters, sorting, and transaction list |
@@ -61,7 +76,9 @@ The application allows users to create, edit, delete, search, filter, and sort f
 ```text
 src/
 ├── components/
-│   ├── CategoryStatistics.tsx
+│   ├── CategoryBarChart.tsx
+│   ├── ConfirmDialog.tsx
+│   ├── CurrencySelector.tsx
 │   ├── MonthlySummary.tsx
 │   ├── SummaryCards.tsx
 │   ├── TransactionFilters.tsx
@@ -69,7 +86,11 @@ src/
 │   ├── TransactionItem.tsx
 │   └── TransactionList.tsx
 │
+├── constants/
+│   └── storageKeys.ts
+│
 ├── hooks/
+│   ├── useCurrency.ts
 │   ├── useMonthlyStatistics.ts
 │   ├── useTransactionFilters.ts
 │   └── useTransactions.ts
@@ -85,13 +106,16 @@ src/
 │   └── TransactionsPage.tsx
 │
 ├── types/
+│   ├── currency.ts
 │   ├── filter.ts
 │   ├── statistics.ts
 │   └── transaction.ts
 │
 ├── utils/
+│   ├── formatCurrency.ts
 │   ├── getCategoryStatistics.ts
-│   └── getTransactionSummary.ts
+│   ├── getTransactionSummary.ts
+│   └── validateTransactionForm.ts
 │
 ├── App.tsx
 ├── index.css
@@ -100,22 +124,27 @@ src/
 
 ## Architecture
 
-The application separates UI, state management, routing, and calculation logic into different layers.
+The application separates UI, state management, routing, formatting, validation, and calculation logic into different layers.
 
 - `components` contain reusable interface elements
-- `pages`      represent individual application routes
-- `layouts`    contain shared page structure and navigation
-- `hooks`      manage transactions, filtering, sorting, and monthly statistics
-- `utils`      contain reusable calculation functions independent of React
-- `types`      contain shared TypeScript type definitions
+- `pages` represent individual application routes
+- `layouts` contain shared page structure and navigation
+- `hooks` manage transactions, filtering, sorting, currency preferences, and monthly statistics
+- `utils` contain reusable logic independent of React
+- `types` contain shared TypeScript type definitions
+- `constants` contain shared application constants such as `localStorage` keys
 
 ## Main React Concepts Practiced
 
 - Functional components
 - Props and callback props
 - Controlled forms
+- Controlled select inputs
 - Derived state
 - Immutable state updates
+- Conditional rendering
+- List rendering
+- Reusable UI components
 - `useState`
 - `useEffect`
 - `useMemo`
@@ -138,6 +167,25 @@ The application separates UI, state management, routing, and calculation logic i
 Transactions are stored in the browser using `localStorage`.
 
 When the application starts, saved transactions are loaded from storage. Whenever the transaction list changes, the updated data is saved automatically.
+
+The selected currency is also stored in `localStorage`, so the user's currency preference is preserved after refreshing the page.
+
+## Validation
+
+Transaction forms use shared validation logic.
+
+The same validation utility is used for both creating and editing transactions. This keeps form validation consistent and avoids duplicated checks across components.
+
+## Charts
+
+The dashboard displays category-based financial statistics using reusable horizontal bar charts.
+
+Charts are used for:
+
+- Overall expense statistics by category
+- Overall income statistics by category
+- Monthly expense statistics by category
+- Monthly income statistics by category
 
 ## Getting Started
 
@@ -195,12 +243,10 @@ npm run preview
 
 ## Planned Improvements
 
-- Add charts for income and expense statistics
 - Improve the visual design
 - Add responsive layouts for mobile devices
-- Add visible form validation messages
-- Add confirmation before deleting a transaction
-- Create reusable form logic for adding and editing transactions
+- Improve accessibility for forms and dialogs
+- Add reusable form logic for adding and editing transactions
 - Add automated tests
 - Deploy the application
 
@@ -208,4 +254,4 @@ npm run preview
 
 The project is currently under active development.
 
-Core transaction management, routing, filtering, sorting, category statistics, monthly statistics, and local persistence are implemented.
+Core transaction management, routing, filtering, sorting, monthly statistics, category charts, currency selection, form validation, delete confirmation, and local persistence are implemented.
