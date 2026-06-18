@@ -13,7 +13,7 @@ import useMonthlyStatistics from "./hooks/useMonthlyStatistics";
 
 function App() {
   const {transactions, addTransaction, deleteTransaction, updateTransaction, totalIncome, totalExpenses, balance, expenseCategoryStatistics, incomeCategoryStatistics} = useTransactions();
-  const {searchQuery, typeFilter, sortedTransactions, sortType, setSearchQuery, setTypeFilter, setSortType} = useTransactionFilters(transactions);
+  const {searchQuery, typeFilter, sortedTransactions, sortType, setSearchQuery, setTypeFilter, setSortType, clearFilters} = useTransactionFilters(transactions);
   const {selectedMonth, setSelectedMonth, monthlyIncome, monthlyBalance, monthlyExpenses, monthlyExpenseCategoryStatistics, monthlyIncomeCategoryStatistics} = useMonthlyStatistics(transactions);
 
   return (
@@ -47,7 +47,8 @@ function App() {
             onAddTransaction={addTransaction} 
             onSearchChange={setSearchQuery}
             onTypeFilterChange={setTypeFilter}
-            onSortFilterChange={setSortType} 
+            onSortFilterChange={setSortType}
+            onClearFilters={clearFilters} 
             />
           } 
         />

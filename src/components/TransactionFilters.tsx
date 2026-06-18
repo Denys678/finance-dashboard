@@ -7,6 +7,7 @@ type TransactionFiltersProps = {
     onSearchChange: (searchQuery: string) => void;
     onTypeFilterChange: (typeFilter: TransactionFilterType) => void;
     onSortFilterChange: (typeSort: TransactionSortType) => void;
+    clearFilters: () => void;
 }
 
 function TransactionFilters({
@@ -15,7 +16,8 @@ function TransactionFilters({
     typeSort, 
     onSearchChange, 
     onTypeFilterChange,
-    onSortFilterChange
+    onSortFilterChange,
+    clearFilters
 }:TransactionFiltersProps)
 {
     return (
@@ -33,6 +35,7 @@ function TransactionFilters({
                 <option value="highest">Highest</option>
                 <option value="lowest">Lowest</option>
             </select>
+            <button type="button" onClick={clearFilters}>Clear filters</button>
         </section>
     )
 }

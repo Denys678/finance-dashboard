@@ -43,6 +43,12 @@ function useTransactionFilters (transactions: Transaction[]){
         return transactionsCopy;
     }, [sortType, filteredTransactions]);
 
+    const clearFilters = () => {
+        setTypeFilter("all");
+        setSearchQuery("");
+        setSortType("newest");
+    }
+
     return {
         searchQuery,
         typeFilter,
@@ -50,7 +56,8 @@ function useTransactionFilters (transactions: Transaction[]){
         sortType,
         setSearchQuery,
         setTypeFilter,
-        setSortType
+        setSortType,
+        clearFilters,
     }
 
 };

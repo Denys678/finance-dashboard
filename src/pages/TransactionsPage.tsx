@@ -15,6 +15,7 @@ type TransactionsPageProps = {
   onSearchChange: (searchQuery: string) => void;
   onTypeFilterChange: (typeFilter: TransactionFilterType) => void;
   onSortFilterChange: (typeSort: TransactionSortType) => void;
+  onClearFilters: () => void;
 };
 
 function TransactionsPage({
@@ -26,7 +27,8 @@ function TransactionsPage({
     typeSort, 
     onSearchChange, 
     onTypeFilterChange,
-    onSortFilterChange
+    onSortFilterChange,
+    onClearFilters
 }: TransactionsPageProps) 
 {
     return (
@@ -39,7 +41,8 @@ function TransactionsPage({
                 onSearchChange={onSearchChange} 
                 onTypeFilterChange={onTypeFilterChange}
                 onSortFilterChange={onSortFilterChange}
-                typeSort={typeSort} 
+                typeSort={typeSort}
+                clearFilters={onClearFilters} 
             />
 
             <TransactionList transactions={transactions} onDeleteTransaction={onDeleteTransaction} />
