@@ -1,14 +1,16 @@
 import type { Transaction } from "../types/transaction";
 import { Link, useParams } from "react-router";
 import { formatCurrency } from "../utils/formatCurrency";
-import type { CurrencyCode } from "../types/currency";
+import type { CurrencyCode, ExchangeRates } from "../types/currency";
+import convertCurrency from "../utils/convertCurrency";
 
 type TransactionDetailsPageProps = {
     transactions: Transaction[];
-    currency: CurrencyCode
+    currency: CurrencyCode;
+    rates: ExchangeRates;
 }
 
-function TransactionDetailsPage({transactions, currency} : TransactionDetailsPageProps) {
+function TransactionDetailsPage({transactions, currency, rates} : TransactionDetailsPageProps) {
     const { id } = useParams();
     
     const transaction = transactions.find(item => item.id === id);
@@ -27,7 +29,7 @@ function TransactionDetailsPage({transactions, currency} : TransactionDetailsPag
             <h2>{transaction.title}</h2>
             <p>Category: {transaction.category}</p>
             <p>Type: {transaction.type}</p>
-            <p>Amount: {transaction.type === "expense" ? `-${formatCurrency(transaction.amount, currency)}` : `+${formatCurrency(transaction.amount, currency)}`}</p>
+            <p>Amount: {transaction.type === "expense" ? `- ${formatCurrency(convertCurrency(transaction.amount, currency, rates), currency)}` : `+ ${formatCurrency(convertCurrency(transaction.amount, currency, rates), currency)}`}</p>
             <p>Date: {transaction.date}</p>
             <Link to={`/transactions/${transaction.id}/edit`}>Edit transaction</Link>
             <Link to="/transactions">Back to transactions</Link>

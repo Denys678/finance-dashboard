@@ -11,12 +11,14 @@ import useTransactions from "./hooks/useTransactions";
 import useTransactionFilters from "./hooks/useTransactionFilters";
 import useMonthlyStatistics from "./hooks/useMonthlyStatistics";
 import useCurrency from "./hooks/useCurrency";
+import useExchangeRates from "./hooks/useExchangeRates";
 
 function App() {
   const {transactions, addTransaction, deleteTransaction, updateTransaction, totalIncome, totalExpenses, balance, expenseCategoryStatistics, incomeCategoryStatistics} = useTransactions();
   const {searchQuery, typeFilter, sortedTransactions, sortType, setSearchQuery, setTypeFilter, setSortType, clearFilters} = useTransactionFilters(transactions);
   const {selectedMonth, setSelectedMonth, monthlyIncome, monthlyBalance, monthlyExpenses, monthlyExpenseCategoryStatistics, monthlyIncomeCategoryStatistics} = useMonthlyStatistics(transactions);
-  const { currency, setCurrency } = useCurrency();
+  const {currency, setCurrency} = useCurrency();
+  const {rates} = useExchangeRates();
 
   return (
     <Routes>
@@ -36,6 +38,7 @@ function App() {
             monthlyExpenseCategoryStatistics={monthlyExpenseCategoryStatistics}
             monthlyIncomeCategoryStatistics={monthlyIncomeCategoryStatistics}
             currency={currency}
+            rates={rates}
             />
           } 
         />
@@ -52,12 +55,13 @@ function App() {
             onTypeFilterChange={setTypeFilter}
             onSortFilterChange={setSortType}
             onClearFilters={clearFilters}
-            currency={currency} 
+            currency={currency}
+            rates={rates} 
             />
           } 
         />
         <Route path="transactions/:id/edit" element={<TransactionEditPage transactions={transactions} onUpdateTransaction={updateTransaction} />} />
-        <Route path="transactions/:id" element={<TransactionDetailsPage transactions={transactions} currency={currency} />} />
+        <Route path="transactions/:id" element={<TransactionDetailsPage transactions={transactions} currency={currency} rates={rates}/>} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
