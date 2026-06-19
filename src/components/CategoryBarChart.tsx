@@ -1,14 +1,16 @@
-import type { CurrencyCode } from "../types/currency";
+import type { CurrencyCode, ExchangeRates } from "../types/currency";
 import type { CategoryStatistic } from "../types/statistics";
+import convertCurrency from "../utils/convertCurrency";
 import { formatCurrency } from "../utils/formatCurrency";
 
 type CategoryBarChartProps = {
     statistics: CategoryStatistic[];
     title: string;
     currency: CurrencyCode;
+    rates: ExchangeRates;
 }
 
-function CategoryBarChart({statistics, title, currency}: CategoryBarChartProps) {
+function CategoryBarChart({statistics, title, currency, rates}: CategoryBarChartProps) {
     if (statistics.length === 0) {
         return (
             <section className="category-bar-chart">
@@ -39,7 +41,7 @@ function CategoryBarChart({statistics, title, currency}: CategoryBarChartProps) 
                             <div className="category-bar-chart_track">
                                 <div className="category-bar-chart_fill" style={{ width: `${barWidth}%` }}></div>
                             </div>
-                            <span className="category-bar-chart_value">{formatCurrency(statistic.total, currency)}</span>
+                            <span className="category-bar-chart_value">{formatCurrency(convertCurrency(statistic.total, currency, rates), currency)}</span>
                         </div>
                     )
                 })}

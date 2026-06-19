@@ -2,7 +2,7 @@ import SummaryCards from "../components/SummaryCards";
 
 import type { CategoryStatistic } from "../types/statistics";
 import MonthlySummary from "../components/MonthlySummary";
-import type { CurrencyCode } from "../types/currency";
+import type { CurrencyCode, ExchangeRates } from "../types/currency";
 import CategoryBarChart from "../components/CategoryBarChart";
 
 type DashboardPageProps = {
@@ -19,6 +19,7 @@ type DashboardPageProps = {
     monthlyIncomeCategoryStatistics: CategoryStatistic[];
     monthlyExpenseCategoryStatistics: CategoryStatistic[];
     currency: CurrencyCode;
+    rates: ExchangeRates;
 }
 
 function DashboardPage({
@@ -34,11 +35,12 @@ function DashboardPage({
     monthlyBalance,
     monthlyIncomeCategoryStatistics,
     monthlyExpenseCategoryStatistics,
-    currency
+    currency,
+    rates
 }: DashboardPageProps) {
     return (
         <div className="dashboard-page">
-            <SummaryCards totalIncome={totalIncome} totalExpenses={totalExpenses} balance={balance} currency={currency} />
+            <SummaryCards totalIncome={totalIncome} totalExpenses={totalExpenses} balance={balance} currency={currency} rates={rates} />
             <MonthlySummary
                 monthlyBalance={monthlyBalance}
                 monthlyIncome={monthlyIncome} 
@@ -48,9 +50,10 @@ function DashboardPage({
                 monthlyExpenseCategoryStatistics={monthlyExpenseCategoryStatistics}
                 monthlyIncomeCategoryStatistics={monthlyIncomeCategoryStatistics}
                 currency={currency}
+                rates={rates}
             />
-            <CategoryBarChart statistics={expenseCategoryStatistics} title="Expenses by category" currency={currency} />
-            <CategoryBarChart statistics={incomeCategoryStatistics} title="Income by category" currency={currency} />
+            <CategoryBarChart statistics={expenseCategoryStatistics} title="Expenses by category" currency={currency} rates={rates} />
+            <CategoryBarChart statistics={incomeCategoryStatistics} title="Income by category" currency={currency} rates={rates} />
         </div>
     )
 }

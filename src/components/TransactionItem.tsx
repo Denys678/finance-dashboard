@@ -3,17 +3,20 @@ import type { Transaction } from "../types/transaction";
 import { useState } from "react";
 import ConfirmDialog from "./ConfirmDialog";
 import { formatCurrency } from "../utils/formatCurrency";
-import type { CurrencyCode } from "../types/currency";
+import type { CurrencyCode, ExchangeRates } from "../types/currency";
+import convertCurrency from "../utils/convertCurrency";
 
 type TransactionItemProps = {
     transaction: Transaction;
     onDeleteTransaction: (id: string) => void;
     currency: CurrencyCode;
+    rates: ExchangeRates;
 };
 
-function TransactionItem({ transaction, onDeleteTransaction, currency }: TransactionItemProps) {
+function TransactionItem({ transaction, onDeleteTransaction, currency, rates }: TransactionItemProps) {
     const amountPrefix: string = transaction.type === "income" ? "+" : "-";
-    const formattedAmount: string = `${amountPrefix}${formatCurrency(transaction.amount, currency)}`;
+    const convertedAmount = convertCurrency(transaction.amount, currency, rates);
+    const formattedAmount: string = `${amountPrefix} ${formatCurrency(convertedAmount, currency)}`;
 
     const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
