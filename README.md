@@ -1,23 +1,26 @@
 # Finance Dashboard
 
-Finance Dashboard is a React + TypeScript application for tracking personal income and expenses.
+Finance Dashboard is a React + TypeScript application for tracking personal income and expenses.  
+The project focuses on transaction management, financial statistics, routing, local persistence, currency selection, and exchange rate conversion.
 
 ## Features
 
-- Add, edit, delete transactions
+- Create, edit, and delete transactions
+- Delete confirmation dialog
 - View transaction details
 - Filter transactions by search query and type
 - Sort transactions by date or amount
 - Clear active filters
-- Save transactions in localStorage
-- Show total income, expenses, and balance
-- Show monthly statistics
-- Display category statistics as bar charts
-- Select display currency: UAH, USD, EUR
-- Convert displayed amounts using exchange rates from the Frankfurter API
-- Save selected currency in localStorage
-- Validate transaction form fields
-- Handle unknown routes with a 404 page
+- Monthly financial summary
+- Income, expense, and balance calculation
+- Category statistics with bar charts
+- Category suggestions based on existing transactions
+- Currency selector: UAH, USD, EUR
+- Exchange rate conversion using the Frankfurter API
+- LocalStorage persistence for transactions and selected currency
+- Form validation
+- Responsive layout
+- 404 page for unknown routes
 
 ## Tech Stack
 
@@ -26,49 +29,70 @@ Finance Dashboard is a React + TypeScript application for tracking personal inco
 - Vite
 - React Router
 - CSS
-- localStorage
+- LocalStorage
 - Fetch API
 - Frankfurter API
-
-## Currency Conversion
-
-All transaction amounts are stored in the base currency: `UAH`.
-
-The selected currency changes only how amounts are displayed. Exchange rates are fetched from the Frankfurter API and used only for UI conversion.
-
-Currency logic is split into:
-
-- `api/exchangeRatesApi.ts` — fetches and normalizes exchange rates
-- `hooks/useExchangeRates.ts` — stores rates, loading state, and error state
-- `utils/convertCurrency.ts` — converts amounts
-- `utils/formatCurrency.ts` — formats money values
 
 ## Project Structure
 
 ```txt
 src/
-├── api/
-├── components/
-├── constants/
-├── hooks/
-├── layouts/
-├── pages/
-├── types/
-├── utils/
+├── api/          # External API requests
+├── components/   # Reusable UI components
+├── constants/    # Application constants
+├── hooks/        # Custom React hooks
+├── layouts/      # Layout components
+├── pages/        # Route pages
+├── styles/       # Global CSS split by responsibility
+├── types/        # TypeScript types
+├── utils/        # Reusable utility functions
 ├── App.tsx
-├── index.css
 └── main.tsx
 ```
 
-## Main Pages
+## Architecture Notes
 
-- Dashboard
-- Transactions
-- Transaction details
-- Edit transaction
-- Not found page
+The application keeps business logic separated from UI components:
 
-## Available Scripts
+- API logic is isolated in `api/exchangeRatesApi.ts`
+- State-related logic is handled by custom hooks
+- Currency conversion is handled by a utility function
+- Money formatting is separated from conversion logic
+- Styles are split into logical files inside the `styles` folder
+
+Transaction amounts are stored in the base currency: `UAH`.  
+Currency conversion is applied only when displaying values in the UI.
+
+## Main Functionality
+
+### Transactions
+
+Users can add, edit, delete, filter, sort, and view transactions.  
+Transactions are persisted in LocalStorage.
+
+### Statistics
+
+The dashboard shows:
+
+- total income
+- total expenses
+- current balance
+- monthly summary
+- category-based income and expense charts
+
+### Currency Conversion
+
+Exchange rates are fetched from the Frankfurter API.  
+The selected currency is saved in LocalStorage and used to display converted values.
+
+If exchange rates are unavailable, the UI remains usable and falls back to original values.
+
+### Category Suggestions
+
+The category input uses existing transaction categories as suggestions.  
+Users can select an existing category or type a new one.
+
+## Getting Started
 
 Install dependencies:
 
@@ -76,41 +100,34 @@ Install dependencies:
 npm install
 ```
 
-Run development server:
+Run the development server:
 
 ```bash
 npm run dev
 ```
 
-Build project:
+Build the project:
 
 ```bash
 npm run build
 ```
 
-Preview production build:
+Preview the production build:
 
 ```bash
 npm run preview
 ```
 
-## Implemented
+## Status
 
-- Transaction CRUD
-- Routing
-- Filtering and sorting
-- Monthly statistics
-- Category charts
-- Currency selector
-- Exchange rate conversion
-- localStorage persistence
-- Form validation
-- Delete confirmation dialog
+Core functionality is implemented:
 
-## Planned Improvements
-
-- Improve visual design
-- Add responsive layout
-- Add better loading and error UI for exchange rates
-- Add tests
-- Deploy the application
+- transaction CRUD
+- routing
+- filtering and sorting
+- statistics
+- category charts
+- currency conversion
+- LocalStorage persistence
+- responsive UI
+- style structure refactor
