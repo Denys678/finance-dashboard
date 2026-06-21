@@ -8,36 +8,54 @@ type TransactionFiltersProps = {
     onTypeFilterChange: (typeFilter: TransactionFilterType) => void;
     onSortFilterChange: (typeSort: TransactionSortType) => void;
     clearFilters: () => void;
-}
+};
 
 function TransactionFilters({
-    searchQuery, 
+    searchQuery,
     typeFilter,
-    typeSort, 
-    onSearchChange, 
+    typeSort,
+    onSearchChange,
     onTypeFilterChange,
     onSortFilterChange,
     clearFilters
-}:TransactionFiltersProps)
-{
+}: TransactionFiltersProps) {
     return (
-        <section>
+        <section className="transaction-filters">
             <h2>Filters</h2>
-            <input placeholder="Search by title or category" value={searchQuery} onChange={(e) => onSearchChange(e.target.value)}></input>
-            <select value={typeFilter} onChange={(e) => onTypeFilterChange(e.target.value as TransactionFilterType)}>
-                <option value="all">All</option>
-                <option value="income">Income</option>
-                <option value="expense">Expense</option>
-            </select>
-            <select value={typeSort} onChange={(e) => onSortFilterChange(e.target.value as TransactionSortType)}>
-                <option value="newest">Newest</option>
-                <option value="oldest">Oldest</option>
-                <option value="highest">Highest</option>
-                <option value="lowest">Lowest</option>
-            </select>
-            <button type="button" onClick={clearFilters}>Clear filters</button>
+
+            <div className="transaction-filters__controls">
+                <input
+                    className="transaction-filters__search"
+                    placeholder="Search by title or category"
+                    value={searchQuery}
+                    onChange={(e) => onSearchChange(e.target.value)}
+                />
+
+                <select
+                    value={typeFilter}
+                    onChange={(e) => onTypeFilterChange(e.target.value as TransactionFilterType)}
+                >
+                    <option value="all">All</option>
+                    <option value="income">Income</option>
+                    <option value="expense">Expense</option>
+                </select>
+
+                <select
+                    value={typeSort}
+                    onChange={(e) => onSortFilterChange(e.target.value as TransactionSortType)}
+                >
+                    <option value="newest">Newest</option>
+                    <option value="oldest">Oldest</option>
+                    <option value="highest">Highest</option>
+                    <option value="lowest">Lowest</option>
+                </select>
+
+                <button className="button-secondary" type="button" onClick={clearFilters}>
+                    Clear filters
+                </button>
+            </div>
         </section>
-    )
+    );
 }
 
 export default TransactionFilters;

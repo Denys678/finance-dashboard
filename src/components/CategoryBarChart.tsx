@@ -10,7 +10,7 @@ type CategoryBarChartProps = {
     rates: ExchangeRates;
 }
 
-function CategoryBarChart({statistics, title, currency, rates}: CategoryBarChartProps) {
+function CategoryBarChart({ statistics, title, currency, rates }: CategoryBarChartProps) {
     if (statistics.length === 0) {
         return (
             <section className="category-bar-chart">

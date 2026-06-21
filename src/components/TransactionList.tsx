@@ -13,23 +13,30 @@ type TransactionListProps = {
 function TransactionList({ transactions, onDeleteTransaction, currency, rates }: TransactionListProps) {
     if (transactions.length === 0) {
         return (
-            <section>
+            <section className="transaction-list-section">
                 <h2>Transactions</h2>
-                <p>No transactions found</p>
+                <p className="empty-state">No transactions found.</p>
             </section>
-        )
+        );
     }
-    
+
     return (
-        <section>
+        <section className="transaction-list-section">
             <h2>Transactions</h2>
-            <ul>
+
+            <ul className="transaction-list">
                 {transactions.map(transaction => (
-                    <TransactionItem key={transaction.id} transaction={transaction} onDeleteTransaction={onDeleteTransaction} currency={currency} rates={rates} />
+                    <TransactionItem
+                        key={transaction.id}
+                        transaction={transaction}
+                        onDeleteTransaction={onDeleteTransaction}
+                        currency={currency}
+                        rates={rates}
+                    />
                 ))}
             </ul>
         </section>
-    )
+    );
 }
 
-export default TransactionList
+export default TransactionList;

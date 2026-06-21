@@ -1,0 +1,104 @@
+@media (max-width: 720px) {
+  .app-shell {
+    width: calc(100% - 24px);
+    padding: 24px 0;
+  }
+
+  .app-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  .app-header h1 {
+    font-size: 28px;
+  }
+
+  .app-nav {
+    overflow-x: auto;
+  }
+
+  .app-nav a {
+    white-space: nowrap;
+  }
+
+  .transaction-form {
+    grid-template-columns: 1fr;
+  }
+
+  .form-field,
+  .form-field--wide {
+    grid-column: auto;
+    min-width: 0;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .form-actions .button-link,
+  .form-actions button {
+    width: 100%;
+  }
+
+  .transaction-filters__controls {
+    flex-direction: column;
+  }
+
+  .transaction-filters__controls > * {
+    width: 100%;
+  }
+
+  .transaction-filters__search {
+    min-width: 0;
+  }
+
+  .transaction-item {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  .transaction-item__meta {
+    align-items: flex-start;
+  }
+
+  .transaction-item__actions {
+    flex-wrap: wrap;
+  }
+
+  .transaction-item__actions > * {
+    flex: 1;
+    text-align: center;
+  }
+
+  .category-bar-chart_row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .category-bar-chart_value {
+    justify-self: start;
+    text-align: left;
+  }
+
+  .details-card__header {
+    flex-direction: column;
+  }
+
+  .details-list {
+    grid-template-columns: 1fr;
+  }
+
+  .details-actions > * {
+    width: 100%;
+  }
+
+  .confirm-dialog__actions {
+    flex-direction: column;
+  }
+
+  .confirm-dialog__actions button {
+    width: 100%;
+  }
+}

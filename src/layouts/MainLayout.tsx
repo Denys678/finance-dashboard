@@ -1,29 +1,46 @@
-import { Outlet } from "react-router";
-import { NavLink } from "react-router";
+import { Outlet, NavLink } from "react-router";
 import CurrencySelector from "../components/CurrencySelector";
 import type { CurrencyCode } from "../types/currency";
 
 type MainLayoutProps = {
     currency: CurrencyCode;
     onCurrencyChange: (currency: CurrencyCode) => void;
-}
+    isExchangeRatesLoading: boolean;
+    exchangeRatesError: string | null;
+};
 
-function MainLayout({currency, onCurrencyChange}: MainLayoutProps) {
+function MainLayout({
+    currency,
+    onCurrencyChange,
+    isExchangeRatesLoading,
+    exchangeRatesError
+}: MainLayoutProps) {
     return (
-        <>
-            <h1>Finance Dashboard</h1>
+        <div className="app-shell">
+            <header className="app-header">
+                <div>
+                    <h1>Finance Dashboard</h1>
+                    <p className="app-subtitle">Track income, expenses, and monthly statistics</p>
+                </div>
 
-            <nav>
+                <CurrencySelector
+                    currency={currency}
+                    onCurrencyChange={onCurrencyChange}
+                    isExchangeRatesLoading={isExchangeRatesLoading}
+                    exchangeRatesError={exchangeRatesError}
+                />
+            </header>
+
+            <nav className="app-nav">
                 <NavLink to="/">Dashboard</NavLink>
                 <NavLink to="/transactions">Transactions</NavLink>
             </nav>
-            <CurrencySelector currency={currency} onCurrencyChange={onCurrencyChange} />
 
-            <main>
+            <main className="app-main">
                 <Outlet />
             </main>
-        </>
-    )
+        </div>
+    );
 }
 
 export default MainLayout;
