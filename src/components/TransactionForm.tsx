@@ -6,9 +6,10 @@ import validateTransactionForm from "../utils/validateTransactionForm";
 
 type TransactionFormProps = {
     onAddTransaction: (transaction: Transaction) => void;
+    categoryOptions: string[];
 };
 
-function TransactionForm({ onAddTransaction }: TransactionFormProps) {
+function TransactionForm({ onAddTransaction, categoryOptions }: TransactionFormProps) {
     const [title, setTitle] = useState("");
     const [amount, setAmount] = useState("");
     const [type, setType] = useState<TransactionType>("expense");
@@ -101,10 +102,17 @@ function TransactionForm({ onAddTransaction }: TransactionFormProps) {
                     <label htmlFor="transaction-category">Category</label>
                     <input
                         id="transaction-category"
+                        list="transaction-category-options"
                         placeholder="Transaction category"
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
                     />
+
+                    <datalist id="transaction-category-options">
+                        {categoryOptions.map(categoryOption => (
+                            <option key={categoryOption} value={categoryOption} />
+                        ))}
+                    </datalist>
                 </div>
 
                 <div className="form-field">
