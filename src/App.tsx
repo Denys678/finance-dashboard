@@ -14,20 +14,26 @@ import useCurrency from "./hooks/useCurrency";
 import useExchangeRates from "./hooks/useExchangeRates";
 
 function App() {
-  const {transactions, addTransaction, deleteTransaction, updateTransaction, totalIncome, totalExpenses, balance, expenseCategoryStatistics, incomeCategoryStatistics} = useTransactions();
-  const {searchQuery, typeFilter, sortedTransactions, sortType, setSearchQuery, setTypeFilter, setSortType, clearFilters} = useTransactionFilters(transactions);
-  const {selectedMonth, setSelectedMonth, monthlyIncome, monthlyBalance, monthlyExpenses, monthlyExpenseCategoryStatistics, monthlyIncomeCategoryStatistics} = useMonthlyStatistics(transactions);
-  const {currency, setCurrency} = useCurrency();
-  const {rates} = useExchangeRates();
+  const { transactions, addTransaction, deleteTransaction, updateTransaction, totalIncome, totalExpenses, balance, expenseCategoryStatistics, incomeCategoryStatistics } = useTransactions();
+  const { searchQuery, typeFilter, sortedTransactions, sortType, setSearchQuery, setTypeFilter, setSortType, clearFilters } = useTransactionFilters(transactions);
+  const { selectedMonth, setSelectedMonth, monthlyIncome, monthlyBalance, monthlyExpenses, monthlyExpenseCategoryStatistics, monthlyIncomeCategoryStatistics } = useMonthlyStatistics(transactions);
+  const { currency, setCurrency } = useCurrency();
+  const { rates, isLoading, error } = useExchangeRates();
 
   return (
     <Routes>
-      <Route element={<MainLayout currency={currency} onCurrencyChange={setCurrency}/>}>
-        <Route 
-          index element={<DashboardPage 
-            totalIncome={totalIncome} 
-            totalExpenses={totalExpenses} 
-            balance={balance} 
+      <Route element={<MainLayout
+        currency={currency}
+        onCurrencyChange={setCurrency}
+        isExchangeRatesLoading={isLoading}
+        exchangeRatesError={error}
+      />
+      }>
+        <Route
+          index element={<DashboardPage
+            totalIncome={totalIncome}
+            totalExpenses={totalExpenses}
+            balance={balance}
             expenseCategoryStatistics={expenseCategoryStatistics}
             incomeCategoryStatistics={incomeCategoryStatistics}
             selectedMonth={selectedMonth}
@@ -39,29 +45,29 @@ function App() {
             monthlyIncomeCategoryStatistics={monthlyIncomeCategoryStatistics}
             currency={currency}
             rates={rates}
-            />
-          } 
+          />
+          }
         />
-        <Route 
-          path="transactions" 
-          element={<TransactionsPage 
-            searchQuery={searchQuery} 
+        <Route
+          path="transactions"
+          element={<TransactionsPage
+            searchQuery={searchQuery}
             typeFilter={typeFilter}
-            typeSort={sortType} 
-            transactions={sortedTransactions} 
-            onDeleteTransaction={deleteTransaction} 
-            onAddTransaction={addTransaction} 
+            typeSort={sortType}
+            transactions={sortedTransactions}
+            onDeleteTransaction={deleteTransaction}
+            onAddTransaction={addTransaction}
             onSearchChange={setSearchQuery}
             onTypeFilterChange={setTypeFilter}
             onSortFilterChange={setSortType}
             onClearFilters={clearFilters}
             currency={currency}
-            rates={rates} 
-            />
-          } 
+            rates={rates}
+          />
+          }
         />
         <Route path="transactions/:id/edit" element={<TransactionEditPage transactions={transactions} onUpdateTransaction={updateTransaction} />} />
-        <Route path="transactions/:id" element={<TransactionDetailsPage transactions={transactions} currency={currency} rates={rates}/>} />
+        <Route path="transactions/:id" element={<TransactionDetailsPage transactions={transactions} currency={currency} rates={rates} />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>

@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router";
+
 import type { Transaction, TransactionType } from "../types/transaction";
 import validateTransactionForm from "../utils/validateTransactionForm";
 
 type TransactionFormProps = {
-    onAddTransaction: (transaction:Transaction) => void;
-}
+    onAddTransaction: (transaction: Transaction) => void;
+};
 
-function TransactionForm ({onAddTransaction}:TransactionFormProps){
+function TransactionForm({ onAddTransaction }: TransactionFormProps) {
     const [title, setTitle] = useState("");
     const [amount, setAmount] = useState("");
     const [type, setType] = useState<TransactionType>("expense");
@@ -17,21 +18,22 @@ function TransactionForm ({onAddTransaction}:TransactionFormProps){
     const [formError, setFormError] = useState("");
 
     const navigate = useNavigate();
-    
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+
         const numericAmount = Number(amount);
 
         setFormError("");
 
-         const validationError = validateTransactionForm({
+        const validationError = validateTransactionForm({
             title,
             amount,
             category,
             date,
         });
 
-        if(validationError) {
+        if (validationError) {
             setFormError(validationError);
             return;
         }
@@ -42,7 +44,7 @@ function TransactionForm ({onAddTransaction}:TransactionFormProps){
             amount: numericAmount,
             type,
             category: category.trim().toLowerCase(),
-            date,   
+            date,
         };
 
         onAddTransaction(newTransaction);
@@ -53,24 +55,80 @@ function TransactionForm ({onAddTransaction}:TransactionFormProps){
         setType("expense");
         setCategory("");
         setDate("");
-
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input placeholder="Transaction title" value={title} onChange={(e) => setTitle(e.target.value)}></input>
-            <input placeholder="Transaction amount" type="number" value={amount} onChange={(e) => setAmount(e.target.value)}></input>
-            <select value={type} onChange={(e) => setType(e.target.value as TransactionType)}>
-                <option value="income">Income</option>
-                <option value="expense">Expense</option>
-            </select>
-            <input placeholder="Transaction category" value={category} onChange={(e) => setCategory(e.target.value)}></input>
-            <input placeholder="Transaction date" type="date" value={date} onChange={(e) => setDate(e.target.value)}></input>
-            {formError && <p role="alert">{formError}</p>}
-            <button type="submit">Add transaction</button>
-        </form>
-    )
+        <section className="transaction-form-section">
+            <h2>Add transaction</h2>
 
+            <form className="transaction-form" onSubmit={handleSubmit}>
+                <div className="form-field form-field--wide">
+                    <label htmlFor="transaction-title">Title</label>
+                    <input
+                        id="transaction-title"
+                        placeholder="Transaction title"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
+                </div>
+
+                <div className="form-field">
+                    <label htmlFor="transaction-amount">Amount</label>
+                    <input
+                        id="transaction-amount"
+                        placeholder="Transaction amount"
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        value={amount}
+                        onChange={(e) => setAmount(e.target.value)}
+                    />
+                </div>
+
+                <div className="form-field">
+                    <label htmlFor="transaction-type">Type</label>
+                    <select
+                        id="transaction-type"
+                        value={type}
+                        onChange={(e) => setType(e.target.value as TransactionType)}
+                    >
+                        <option value="income">Income</option>
+                        <option value="expense">Expense</option>
+                    </select>
+                </div>
+
+                <div className="form-field form-field--wide">
+                    <label htmlFor="transaction-category">Category</label>
+                    <input
+                        id="transaction-category"
+                        placeholder="Transaction category"
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                    />
+                </div>
+
+                <div className="form-field">
+                    <label htmlFor="transaction-date">Date</label>
+                    <input
+                        id="transaction-date"
+                        type="date"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+                    />
+                </div>
+
+                {formError && (
+                    <p className="form-error" role="alert">
+                        {formError}
+                    </p>
+                )}
+
+                <div className="form-actions">
+                    <button type="submit">Add transaction</button>
+                </div>
+            </form>
+        </section>
+    );
 }
 
 export default TransactionForm;

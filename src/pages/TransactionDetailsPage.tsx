@@ -8,31 +8,68 @@ type TransactionDetailsPageProps = {
     transactions: Transaction[];
     currency: CurrencyCode;
     rates: ExchangeRates;
-}
+};
 
-function TransactionDetailsPage({transactions, currency, rates} : TransactionDetailsPageProps) {
+function TransactionDetailsPage({ transactions, currency, rates }: TransactionDetailsPageProps) {
     const { id } = useParams();
-    
+
     const transaction = transactions.find(item => item.id === id);
 
-    if(!transaction) {
+    if (!transaction) {
         return (
-            <section>
+            <section className="details-card">
                 <h2>Transaction details</h2>
-                <p>The transaction you are looking for does not exist.</p>
+                <p className="empty-state">The transaction you are looking for does not exist.</p>
+                <Link className="button-link" to="/transactions">
+                    Back to transactions
+                </Link>
             </section>
-        )
+        );
     }
 
+    const amountPrefix = transaction.type === "income" ? "+" : "-";
+    const convertedAmount = convertCurrency(transaction.amount, currency, rates);
+    const formattedAmount = `${amountPrefix}${formatCurrency(convertedAmount, currency)}`;
+
     return (
-        <section>
-            <h2>{transaction.title}</h2>
-            <p>Category: {transaction.category}</p>
-            <p>Type: {transaction.type}</p>
-            <p>Amount: {transaction.type === "expense" ? `- ${formatCurrency(convertCurrency(transaction.amount, currency, rates), currency)}` : `+ ${formatCurrency(convertCurrency(transaction.amount, currency, rates), currency)}`}</p>
-            <p>Date: {transaction.date}</p>
-            <Link to={`/transactions/${transaction.id}/edit`}>Edit transaction</Link>
-            <Link to="/transactions">Back to transactions</Link>
+        <section className="details-card">
+            <div className="details-card__header">
+                <div>
+                    <h2>{transaction.title}</h2>
+                    <p className="details-card__subtitle">{transaction.category}</p>
+                </div>
+
+                <span className={`details-card__amount details-card__amount--${transaction.type}`}>
+                    {formattedAmount}
+                </span>
+            </div>
+
+            <dl className="details-list">
+                <div>
+                    <dt>Category</dt>
+                    <dd>{transaction.category}</dd>
+                </div>
+
+                <div>
+                    <dt>Type</dt>
+                    <dd>{transaction.type}</dd>
+                </div>
+
+                <div>
+                    <dt>Date</dt>
+                    <dd>{transaction.date}</dd>
+                </div>
+            </dl>
+
+            <div className="details-actions">
+                <Link className="button-link" to={`/transactions/${transaction.id}/edit`}>
+                    Edit transaction
+                </Link>
+
+                <Link className="button-link button-link--secondary" to="/transactions">
+                    Back to transactions
+                </Link>
+            </div>
         </section>
     );
 }

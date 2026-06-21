@@ -16,16 +16,16 @@ type MonthlySummaryProps = {
 }
 
 function MonthlySummary({
-        selectedMonth,
-        onMonthChange,
-        monthlyIncome,
-        monthlyExpenses,
-        monthlyBalance,
-        monthlyExpenseCategoryStatistics,
-        monthlyIncomeCategoryStatistics,
-        currency,
-        rates
-    }: MonthlySummaryProps) {
+    selectedMonth,
+    onMonthChange,
+    monthlyIncome,
+    monthlyExpenses,
+    monthlyBalance,
+    monthlyExpenseCategoryStatistics,
+    monthlyIncomeCategoryStatistics,
+    currency,
+    rates
+}: MonthlySummaryProps) {
     return (
         <section>
             <h2>Monthly summary</h2>
