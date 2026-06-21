@@ -19,6 +19,7 @@ type TransactionsPageProps = {
   onClearFilters: () => void;
   currency: CurrencyCode;
   rates: ExchangeRates;
+  categoryOptions: string[];
 };
 
 function TransactionsPage({
@@ -33,12 +34,13 @@ function TransactionsPage({
     onSortFilterChange,
     onClearFilters,
     currency,
-    rates
+    rates,
+    categoryOptions
 }: TransactionsPageProps) 
 {
     return (
         <>
-            <TransactionForm onAddTransaction={onAddTransaction} />
+            <TransactionForm onAddTransaction={onAddTransaction} categoryOptions={categoryOptions} />
 
             <TransactionFilters 
                 searchQuery={searchQuery} 

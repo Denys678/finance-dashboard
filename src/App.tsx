@@ -1,5 +1,7 @@
 import { Route, Routes } from "react-router";
 
+import getUniqueCategories from "./utils/getUniqueCategories";
+
 import DashboardPage from "./pages/DashboardPage";
 import TransactionsPage from "./pages/TransactionsPage";
 import TransactionDetailsPage from "./pages/TransactionDetailsPage";
@@ -19,6 +21,8 @@ function App() {
   const { selectedMonth, setSelectedMonth, monthlyIncome, monthlyBalance, monthlyExpenses, monthlyExpenseCategoryStatistics, monthlyIncomeCategoryStatistics } = useMonthlyStatistics(transactions);
   const { currency, setCurrency } = useCurrency();
   const { rates, isLoading, error } = useExchangeRates();
+
+  const categoryOptions = getUniqueCategories(transactions);
 
   return (
     <Routes>
@@ -63,10 +67,17 @@ function App() {
             onClearFilters={clearFilters}
             currency={currency}
             rates={rates}
+            categoryOptions={categoryOptions}
           />
           }
         />
-        <Route path="transactions/:id/edit" element={<TransactionEditPage transactions={transactions} onUpdateTransaction={updateTransaction} />} />
+        <Route path="transactions/:id/edit" element={<TransactionEditPage 
+        transactions={transactions} 
+        onUpdateTransaction={updateTransaction} 
+          categoryOptions={categoryOptions}
+        />
+      }
+         />
         <Route path="transactions/:id" element={<TransactionDetailsPage transactions={transactions} currency={currency} rates={rates} />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>

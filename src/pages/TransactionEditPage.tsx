@@ -7,9 +7,10 @@ import validateTransactionForm from "../utils/validateTransactionForm";
 type TransactionEditPageProps = {
     transactions: Transaction[];
     onUpdateTransaction: (transaction: Transaction) => void;
+    categoryOptions: string[];
 };
 
-function TransactionEditPage({ transactions, onUpdateTransaction }: TransactionEditPageProps) {
+function TransactionEditPage({ transactions, onUpdateTransaction, categoryOptions }: TransactionEditPageProps) {
     const { id } = useParams();
     const transaction = transactions.find(item => item.id === id);
 
@@ -115,10 +116,17 @@ function TransactionEditPage({ transactions, onUpdateTransaction }: TransactionE
                     <label htmlFor="edit-transaction-category">Category</label>
                     <input
                         id="edit-transaction-category"
+                        list="transaction-category-options"
                         type="text"
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
                     />
+
+                    <datalist id="transaction-category-options">
+                        {categoryOptions.map(categoryOption => (
+                            <option key={categoryOption} value={categoryOption} />
+                        ))}
+                    </datalist>
                 </div>
 
                 <div className="form-field">
