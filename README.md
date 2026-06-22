@@ -3,6 +3,8 @@
 Finance Dashboard is a React + TypeScript application for tracking personal income and expenses.  
 The project focuses on transaction management, financial statistics, routing, local persistence, currency selection, and exchange rate conversion.
 
+Live Demo: https://finance-dashboard-theta-jet.vercel.app/
+
 ## Features
 
 - Create, edit, and delete transactions
