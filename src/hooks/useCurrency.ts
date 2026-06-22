@@ -14,7 +14,7 @@ function useCurrency() {
             return savedCurrency;
         }
 
-        return "USD";
+        return "UAH";
     });
 
     useEffect(() => {

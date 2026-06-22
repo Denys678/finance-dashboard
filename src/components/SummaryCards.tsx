@@ -17,7 +17,7 @@ function SummaryCards({ totalIncome, totalExpenses, balance, currency, rates }: 
 
     return (
         <section>
-            <h2>Overall summary</h2>
+            <h2>Overall</h2>
             <p>Total income: {formatCurrency(convertedIncome, currency)}</p>
             <p>Total expenses: {formatCurrency(convertedExpenses, currency)}</p>
             <p>Balance: {formatCurrency(convertedBalance, currency)}</p>

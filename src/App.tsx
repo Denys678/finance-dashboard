@@ -71,13 +71,13 @@ function App() {
           />
           }
         />
-        <Route path="transactions/:id/edit" element={<TransactionEditPage 
-        transactions={transactions} 
-        onUpdateTransaction={updateTransaction} 
+        <Route path="transactions/:id/edit" element={<TransactionEditPage
+          transactions={transactions}
+          onUpdateTransaction={updateTransaction}
           categoryOptions={categoryOptions}
         />
-      }
-         />
+        }
+        />
         <Route path="transactions/:id" element={<TransactionDetailsPage transactions={transactions} currency={currency} rates={rates} />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
