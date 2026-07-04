@@ -11,3 +11,21 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+enum TransactionType {
+  income
+  expense
+}
+
+model Transaction {
+  id        String          @id @default(uuid()) @db.Uuid
+  title     String
+  amount    Decimal         @db.Decimal(10, 2)
+  type      TransactionType @default(income)
+  date      DateTime        @db.Date
+  category  String
+  createdAt DateTime        @default(now()) @map("created_at")
+  updatedAt DateTime        @updatedAt @map("updated_at")
+
+  @@map("transactions")
+}
