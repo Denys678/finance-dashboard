@@ -1,61 +1,47 @@
 import { useEffect, useState, useMemo } from "react";
 import type { Transaction } from "../types/transaction";
 import getCategoryStatistics from "../utils/getCategoryStatistics";
-import { TRANSACTIONS_STORAGE_KEY } from "../constants/storageKeys";
-
-const initialTransactions: Transaction[] = [
-  {
-    id: "1",
-    title: "Salary",
-    amount: 1200,
-    type: "income",
-    category: "Work",
-    date: "2026-05-25",
-  },
-  {
-    id: "2",
-    title: "Food",
-    amount: 250,
-    type: "expense",
-    category: "Groceries",
-    date: "2026-05-25",
-  },
-  {
-    id: "3",
-    title: "Transport",
-    amount: 80,
-    type: "expense",
-    category: "Transport",
-    date: "2026-05-24",
-  },
-];
+import { createTransaction, getTransactions as fetchTransactions, type CreateTransactionInput } from "../api/transactionsApi";
 
 function useTransactions() {
-    const [transactions, setTransactions] = useState<Transaction[]>(() => {
-        const savedTransactions = localStorage.getItem(TRANSACTIONS_STORAGE_KEY);
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
 
-        if (!savedTransactions) {
-            return initialTransactions;
+    useEffect(() => {
+        async function loadTransactions() {
+            try {
+                setIsLoading(true);
+                setError(null);
+
+                const data = await fetchTransactions();
+
+                setTransactions(data);
+            } catch {
+                setError("Failed to gecth transactions");
+            } finally {
+                setIsLoading(true);
+            }
         }
 
-        try {
-            return JSON.parse(savedTransactions) as Transaction[];
-        } catch {
-            return initialTransactions;
-        }
-    });
+        loadTransactions();
+    }, []);
 
-    useEffect(() => {localStorage.setItem(TRANSACTIONS_STORAGE_KEY, JSON.stringify(transactions));}, [transactions]);
+    const addTransaction = async (transactionData: CreateTransactionInput): Promise<Transaction> => {
+        const createdTransaction = await createTransaction(transactionData);
 
-    const addTransaction = (transaction: Transaction): void => {setTransactions((prev) => [transaction, ...prev]);};
+        setTransactions((prev) => [createdTransaction, ...prev]);
+
+        return createdTransaction;
+    };
 
     const deleteTransaction = (id: string): void => {
         setTransactions((prev) =>
-        prev.filter((transaction) => transaction.id !== id)
+            prev.filter((transaction) => transaction.id !== id)
         );
     };
 
-    const updateTransaction = ( updatedTransaction: Transaction): void => {
+    const updateTransaction = (updatedTransaction: Transaction): void => {
         setTransactions(prev => {
             return prev.map(item => {
                 return item.id === updatedTransaction.id ? updatedTransaction : item;
@@ -63,16 +49,18 @@ function useTransactions() {
         })
     }
 
-    const totalIncome  = useMemo(() => {return transactions.filter(item => item.type === "income").reduce((acc, item) => acc + item.amount, 0)}, [transactions]);
-    const totalExpenses = useMemo(() => {return transactions.filter(item => item.type === "expense").reduce((acc, item) => acc + item.amount, 0)}, [transactions]);
+    const totalIncome = useMemo(() => { return transactions.filter(item => item.type === "income").reduce((acc, item) => acc + item.amount, 0) }, [transactions]);
+    const totalExpenses = useMemo(() => { return transactions.filter(item => item.type === "expense").reduce((acc, item) => acc + item.amount, 0) }, [transactions]);
     const balance = totalIncome - totalExpenses;
 
     const expenseCategoryStatistics = useMemo(() => getCategoryStatistics(transactions, 'expense'), [transactions]);
     const incomeCategoryStatistics = useMemo(() => getCategoryStatistics(transactions, 'income'), [transactions]);
-    
+
 
     return {
         transactions,
+        isLoading,
+        error,
         addTransaction,
         deleteTransaction,
         updateTransaction,
