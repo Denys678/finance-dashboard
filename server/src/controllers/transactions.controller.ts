@@ -1,5 +1,5 @@
 import { CreateTransactionInput, TransactionIdParams } from "../schemas/transactions.schemas.js";
-import { createTransactionRecord, getAllTransactions, getTransactionById } from "../services/transactions.service.js";
+import { createTransactionRecord, deleteTransactionById, getAllTransactions, getTransactionById } from "../services/transactions.service.js";
 import type { Request, Response, NextFunction } from "express";  
 
 export async function getTransactions(req: Request, res: Response, next: NextFunction) {
@@ -32,6 +32,18 @@ export async function getTransaction(req: Request, res: Response, next: NextFunc
 
         return res.status(200).json(transaction);
     } catch(error){
+        return next(error);
+    }
+}
+
+export async function deleteTransaction(req: Request, res: Response, next: NextFunction) {
+    try{
+        const { id } = req.params as TransactionIdParams;
+
+        const transaction = await deleteTransactionById(id);
+
+        return res.status(200).json(transaction);
+    } catch(error) {
         return next(error);
     }
 }

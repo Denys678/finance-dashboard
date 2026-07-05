@@ -42,3 +42,13 @@ export async function getTransactionById(id: string) {
 
     return transaction;
 }
+
+export async function deleteTransactionById(id: string) {
+    await getTransactionById(id)
+
+    return prisma.transaction.delete({
+        where: {
+            id,
+        },
+    });
+}
