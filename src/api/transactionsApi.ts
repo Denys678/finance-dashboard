@@ -18,18 +18,30 @@ export async function getTransactions(): Promise<Transaction[]> {
 }
 
 export async function createTransaction(data: CreateTransactionInput): Promise<Transaction> {
-    const response = await fetch(`${API_BASE_URL}/transactions`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-    });
+  const response = await fetch(`${API_BASE_URL}/transactions`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
 
-    if (!response.ok) {
-        throw new Error("Failed to create transaction");
-    }
+  if (!response.ok) {
+    throw new Error("Failed to create transaction");
+  }
 
-    return response.json();
+  return response.json();
 
+}
+
+export async function deleteTransactionApi(id: string): Promise<Transaction> {
+  const response = await fetch(`${API_BASE_URL}/transactions/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to delete transaction");
+  }
+
+  return response.json();
 }
