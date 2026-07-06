@@ -56,7 +56,7 @@ export async function updateTransaction(req: Request, res: Response, next: NextF
 
         const transaction = await updateTransactionById(id, data);
 
-        return res.status(200).json(transaction);
+        return res.status(200).json(mapTransaction(transaction));
     } catch(error){
         return next(error);
     }
