@@ -5,7 +5,7 @@ import TransactionItem from "./TransactionItem";
 
 type TransactionListProps = {
     transactions: Transaction[];
-    onDeleteTransaction: (id: string) => void;
+    onDeleteTransaction: (id: string) => Promise<void>;
     currency: CurrencyCode;
     rates: ExchangeRates;
 };

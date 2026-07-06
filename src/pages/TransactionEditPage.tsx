@@ -3,10 +3,11 @@ import { Link, useNavigate, useParams } from "react-router";
 
 import type { Transaction, TransactionType } from "../types/transaction";
 import validateTransactionForm from "../utils/validateTransactionForm";
+import type { UpdateTransactionInput } from "../api/transactionsApi";
 
 type TransactionEditPageProps = {
     transactions: Transaction[];
-    onUpdateTransaction: (transaction: Transaction) => void;
+    onUpdateTransaction: (id: string, data: UpdateTransactionInput) => Promise<Transaction>;
     categoryOptions: string[];
 };
 
@@ -24,10 +25,10 @@ function TransactionEditPage({ transactions, onUpdateTransaction, categoryOption
 
     const navigate = useNavigate();
 
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if (!transaction) {
+        if (!id || !transaction) {
             return;
         }
 
@@ -47,8 +48,7 @@ function TransactionEditPage({ transactions, onUpdateTransaction, categoryOption
             return;
         }
 
-        const updatedTransaction: Transaction = {
-            id: transaction.id,
+        const updatedTransactionData: UpdateTransactionInput = {
             title: transactionTitle.trim(),
             amount: numericAmount,
             type,
@@ -56,8 +56,16 @@ function TransactionEditPage({ transactions, onUpdateTransaction, categoryOption
             date,
         };
 
-        onUpdateTransaction(updatedTransaction);
-        navigate(`/transactions/${updatedTransaction.id}`);
+        try {
+            const updatedTransaction = await onUpdateTransaction(
+                id,
+                updatedTransactionData
+            );
+
+            navigate(`/transactions/${updatedTransaction.id}`);
+        } catch {
+            setFormError("Failed to update transaction");
+        }
     };
 
     if (!transaction) {

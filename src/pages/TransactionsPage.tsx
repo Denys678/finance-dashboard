@@ -5,11 +5,12 @@ import type { CurrencyCode, ExchangeRates } from "../types/currency";
 import TransactionForm from "../components/TransactionForm";
 import TransactionFilters from "../components/TransactionFilters";
 import TransactionList from "../components/TransactionList";
+import type { CreateTransactionInput } from "../api/transactionsApi";
 
 type TransactionsPageProps = {
   transactions: Transaction[];
-  onAddTransaction: (transaction: Transaction) => void;
-  onDeleteTransaction: (id: string) => void;
+  onAddTransaction: (transaction: CreateTransactionInput) => Promise<Transaction>;
+  onDeleteTransaction: (id: string) => Promise<void>;
   searchQuery: string;
   typeFilter: TransactionFilterType;
   typeSort: TransactionSortType;

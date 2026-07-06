@@ -2,10 +2,11 @@ import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router";
 
 import type { Transaction, TransactionType } from "../types/transaction";
+import type { CreateTransactionInput } from "../api/transactionsApi";
 import validateTransactionForm from "../utils/validateTransactionForm";
 
 type TransactionFormProps = {
-    onAddTransaction: (transaction: Transaction) => void;
+    onAddTransaction: (transaction: CreateTransactionInput) => Promise<Transaction>
     categoryOptions: string[];
 };
 
@@ -20,7 +21,7 @@ function TransactionForm({ onAddTransaction, categoryOptions }: TransactionFormP
 
     const navigate = useNavigate();
 
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         const numericAmount = Number(amount);
@@ -39,8 +40,7 @@ function TransactionForm({ onAddTransaction, categoryOptions }: TransactionFormP
             return;
         }
 
-        const newTransaction: Transaction = {
-            id: crypto.randomUUID(),
+        const newTransaction: CreateTransactionInput = {
             title: title.trim(),
             amount: numericAmount,
             type,
@@ -48,14 +48,19 @@ function TransactionForm({ onAddTransaction, categoryOptions }: TransactionFormP
             date,
         };
 
-        onAddTransaction(newTransaction);
-        navigate(`/transactions/${newTransaction.id}`);
+        try{
+            const createdTransaction = await onAddTransaction(newTransaction);
+            
+            setTitle("");
+            setAmount("");
+            setType("expense");
+            setCategory("");
+            setDate("");
 
-        setTitle("");
-        setAmount("");
-        setType("expense");
-        setCategory("");
-        setDate("");
+            navigate(`/transactions/${createdTransaction.id}`);
+        } catch{
+            setFormError("Fialed to create transaction");
+        }
     };
 
     return (
